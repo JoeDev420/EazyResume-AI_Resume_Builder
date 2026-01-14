@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
-import API, {registerUnauthorizedHandler} from "./Axios";
+import API, {registerUnauthorizedHandler} from "./AxiosConfig";
 import LoadingSpinner from "./LoadingSpinner";
 
 
