@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { User, Trash2 } from "lucide-react";
 import Next from "../ResumeNavigator";
 import ResumeNavigator from "../ResumeNavigator";
-import API from "../axios";
+import API from "../AxiosConfig.jsx";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../LoadingSpinner";
 import { toast } from "react-toastify";

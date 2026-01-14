@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "./Modal";
 import LoadingSpinner from "../LoadingSpinner";
-import API from "../axios";
+import API from "../AxiosConfig";
 import { toast } from "react-toastify";
 
 const DeleteConfirmModal = ({

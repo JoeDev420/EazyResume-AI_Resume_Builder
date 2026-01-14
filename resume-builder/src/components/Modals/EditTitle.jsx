@@ -1,5 +1,5 @@
 import { useState } from "react";
-import API from "../axios";
+import API from "../AxiosConfig";
 import Modal from "./Modal";
 import LoadingSpinner from "../LoadingSpinner";
 import { toast } from "react-toastify";

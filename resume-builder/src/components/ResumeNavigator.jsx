@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import API from './axios';
+import API from './AxiosConfig';
 import { useParams,useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 

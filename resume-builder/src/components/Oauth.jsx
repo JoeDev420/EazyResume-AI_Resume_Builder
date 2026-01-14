@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useGoogleLogin } from '@react-oauth/google'
-import API from './axios'
+import API from './AxiosConfig'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from './AuthContext'
 import LoadingSpinner from './LoadingSpinner'

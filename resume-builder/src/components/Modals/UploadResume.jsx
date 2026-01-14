@@ -1,7 +1,7 @@
 import Modal from "./Modal";
 import LoadingSpinner from "../LoadingSpinner";
 import { useNavigate } from "react-router-dom";
-import API from "../axios";
+import API from "../AxiosConfig";
 import { useState } from "react";
 import { useAuth } from "../AuthContext";
 import { toast } from "react-toastify";

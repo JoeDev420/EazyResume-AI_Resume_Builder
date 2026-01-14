@@ -1,4 +1,4 @@
-import API from "./axios";
+import API from "./AxiosConfig";
 
 
 const SectionToggles = ({ sectionVisibility,setFormData,resumeId,resumeStep}) => {
