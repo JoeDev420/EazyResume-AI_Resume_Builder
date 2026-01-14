@@ -35,7 +35,7 @@ app.use("/api/payment", PaymentRouter);
 
 app.get('/',(req,res)=>{
 
-    res.send("hi")
+    res.status(200).json({ status: "ok" });
 
 
 })
