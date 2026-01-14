@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import API from "../components/AxiosConfig";
-import Navbar from "../components/NavBar";
+import Navbar from "../components/Navbar";
 import { toast } from "react-toastify";
 import { useAuth } from "../components/AuthContext";
 import { useSearchParams } from "react-router-dom";

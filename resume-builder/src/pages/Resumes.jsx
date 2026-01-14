@@ -3,7 +3,7 @@ import API from "../components/AxiosConfig";
 import { useAuth } from "../components/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Navbar from "../components/NavBar";
+import Navbar from "../components/Navbar";
 
 const Resumes = () => {
   const { user } = useAuth();
