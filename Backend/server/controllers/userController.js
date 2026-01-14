@@ -50,8 +50,9 @@
         res.cookie("token", token, {
 
             httpOnly: true,
-            sameSite: "strict",
-
+            sameSite: "none",
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+            secure: true,       // MUST be true in production
         });
 
 
@@ -114,7 +115,9 @@
         res.cookie("token", token, {        //login sends a cookie to the user's browser. now that the 
 
             httpOnly: true,
-            sameSite: "strict",
+            sameSite: "none",
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+            secure: true,       // MUST be true in production
 
         });
 
