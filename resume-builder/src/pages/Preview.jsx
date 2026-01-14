@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import TemplateRenderer from '../components/templates/TemplateRender';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import API from '../components/axios';
+import API from '../components/AxiosConfig';
 import { useAuth } from '../components/AuthContext';
 
 const Preview = () => {

@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../components/AuthContext"
 import { useEffect } from "react"
-import API from "../components/axios"
+import API from "../components/AxiosConfig"
 import Oauth from "../components/Oauth"
 import LoadingSpinner from "../components/LoadingSpinner"
 import { toast } from "react-toastify";

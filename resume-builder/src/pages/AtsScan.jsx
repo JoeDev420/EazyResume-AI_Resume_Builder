@@ -1,6 +1,6 @@
     import React, { useState } from "react";
     import { XCircle } from "lucide-react";
-    import API from "../components/axios";
+    import API from "../components/AxiosConfig";
     import ResumeNavigator from "../components/ResumeNavigator";
 
     const AtsScan = ({ formData }) => {

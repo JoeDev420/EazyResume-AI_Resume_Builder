@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
-import API from "../components/axios.jsx";
+import API from "../components/AxiosConfig";
 import { useAuth } from "../components/AuthContext.jsx";
 
 

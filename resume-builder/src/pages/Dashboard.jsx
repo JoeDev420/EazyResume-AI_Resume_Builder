@@ -8,7 +8,7 @@
   import DeleteConfirmModal from "../components/Modals/DeleteResume";
 
 
-  import API from "../components/axios";
+  import API from "../components/AxiosConfig";
   import { useAuth } from "../components/AuthContext";
 
   const Dashboard = () => {

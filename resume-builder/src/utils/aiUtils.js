@@ -1,4 +1,4 @@
-import API from "../components/axios"
+import API from "../components/AxiosConfig"
 
 
 

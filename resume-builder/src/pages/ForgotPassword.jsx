@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import API from '../components/axios';
+import API from '../components/AxiosConfig';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const ForgotPassword = () => {

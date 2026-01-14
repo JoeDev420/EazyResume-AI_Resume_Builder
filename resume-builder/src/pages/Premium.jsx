@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import API from "../components/axios";
+import API from "../components/AxiosConfig";
 import Navbar from "../components/NavBar";
 import { toast } from "react-toastify";
 import { useAuth } from "../components/AuthContext";
