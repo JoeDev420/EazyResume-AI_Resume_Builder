@@ -11,7 +11,7 @@ const Footer = () => {
 
         <div className="flex items-center gap-6">
           <a
-            href="https://github.com/your-username/your-repo"
+            href="https://github.com/JoeDev420/EazyResume-AI_Resume_Builder"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-blue-500 transition"
@@ -20,7 +20,7 @@ const Footer = () => {
           </a>
 
           <a
-            href="https://www.naukri.com"
+            href="https://www.naukri.com/mnjuser/profile?id=&altresid"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-blue-500 transition"
@@ -29,7 +29,7 @@ const Footer = () => {
           </a>
 
           <a
-            href="https://www.linkedin.com"
+            href="https://www.linkedin.com/in/anant-singh-b33a93373/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-blue-500 transition"
