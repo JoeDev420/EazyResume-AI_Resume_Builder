@@ -147,7 +147,8 @@
         res.clearCookie("token",{
 
           httpOnly: true,    
-          sameSite: "strict",
+          sameSite: "none",
+          secure:true,
           path: "/"
 
         })
