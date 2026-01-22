@@ -116,6 +116,8 @@ const ResumeBuilder = () => {
       description: "",
     });
 
+  
+
 
 
 
@@ -192,6 +194,15 @@ const ResumeBuilder = () => {
 
   }
 
+  const goToEnd = () => {
+  setResumeStep(9);
+  setSearchParams((params) => {
+    const p = new URLSearchParams(params);
+    p.set("resumeStep", 9);
+    return p;
+  });
+};
+
 
 
   return (
@@ -258,7 +269,7 @@ const ResumeBuilder = () => {
 
 
 
-        {resumeStep === 1 &&<div className="px-8">
+        {resumeStep === 1 &&<div className="px-8 relative">
           
             <PersonalInfoForm
               formData={formData}
@@ -427,6 +438,16 @@ const ResumeBuilder = () => {
               </button>
             </div>
           )}
+
+
+          <button
+            type="button"
+            onClick={goToEnd}
+            className="absolute right-0 mt-6 w-full h-10 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition"
+          >
+            Go to End
+          </button>
+
 
 
         
