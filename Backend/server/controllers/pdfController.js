@@ -1,5 +1,7 @@
 import Resume from "../models/Resume.js";
-import puppeteer from "puppeteer"
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
+
 
 
 export const downloadResumePDF = async (req, res) => {
@@ -35,9 +37,12 @@ export const downloadResumePDF = async (req, res) => {
 
     // 3️⃣ Generate PDF
     const browser = await puppeteer.launch({
-      headless: "new",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+  args: chromium.args,
+  defaultViewport: chromium.defaultViewport,
+  executablePath: await chromium.executablePath(),
+  headless: chromium.headless,
+});
+
 
     const page = await browser.newPage();
 
