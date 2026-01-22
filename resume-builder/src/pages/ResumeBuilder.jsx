@@ -209,7 +209,7 @@ const ResumeBuilder = () => {
 
     <div className="grid grid-cols-[3fr_4fr_1fr] bg-gray-100 min-h-screen gap-8">
 
-      <div className="flex flex-col bg-white ml-10 mt-5">
+      <div className="flex flex-col bg-white ml-10 mt-5 relative">
 
 
 
@@ -266,10 +266,10 @@ const ResumeBuilder = () => {
           </div>
 
 
+      
 
 
-
-        {resumeStep === 1 &&<div className="px-8 relative">
+        {resumeStep === 1 &&<div className="px-8">
           
             <PersonalInfoForm
               formData={formData}
