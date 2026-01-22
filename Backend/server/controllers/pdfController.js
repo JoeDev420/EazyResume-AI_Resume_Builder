@@ -1,21 +1,13 @@
-import Resume from "../models/Resume.js";
-import puppeteer from "puppeteer-core";
-import chromium from "@sparticuz/chromium";
-
-
-
 export const downloadResumePDF = async (req, res) => {
-
-
   try {
     const { slug } = req.params;
-    const userId = req.userId || null; // may be undefined
+    const userId = req.userId || null;
 
     if (!slug) {
-      return res.status(400).json({ success: false });
+      return res.status(400).json({ success: false, message: "Missing slug" });
     }
 
-    // 1️⃣ Fetch resume
+    console.log("1. Looking for resume:", slug);
     const resume = await Resume.findOne({ slug });
     if (!resume) {
       return res.status(404).json({
@@ -24,7 +16,7 @@ export const downloadResumePDF = async (req, res) => {
       });
     }
 
-    // 2️⃣ Authorization check
+    console.log("2. Checking authorization");
     const isOwner = userId && resume.userId.toString() === userId;
     const isPublic = resume.public === true;
 
@@ -35,30 +27,37 @@ export const downloadResumePDF = async (req, res) => {
       });
     }
 
-    // 3️⃣ Generate PDF
-    const browser = await puppeteer.launch({
-  args: chromium.args,
-  defaultViewport: chromium.defaultViewport,
-  executablePath: await chromium.executablePath(),
-  headless: chromium.headless,
-});
+    console.log("3. Getting Chromium path");
+    const executablePath = await chromium.executablePath();
+    console.log("Chromium path:", executablePath);
 
+    console.log("4. Launching browser");
+    const browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath,
+      headless: chromium.headless,
+    });
 
     const page = await browser.newPage();
+    
+    const url = `${process.env.FRONTEND_URL}/view/${slug}?print=true`;
+    console.log("5. Navigating to:", url);
 
-    await page.goto(
-      `${process.env.FRONTEND_URL}/view/${slug}?print=true`,
-      { waitUntil: "networkidle0" }
-    );
+    await page.goto(url, { 
+      waitUntil: "networkidle0",
+      timeout: 30000 // 30 second timeout
+    });
 
+    console.log("6. Generating PDF");
     const pdf = await page.pdf({
       format: "A4",
       printBackground: true,
     });
 
     await browser.close();
+    console.log("7. PDF generated successfully");
 
-    // 4️⃣ Respond
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
@@ -67,7 +66,11 @@ export const downloadResumePDF = async (req, res) => {
 
     return res.send(pdf);
   } catch (error) {
-    console.error("PDF error:", error.message);
-    return res.status(500).json({ success: false });
+    console.error("PDF generation error:", error);
+    return res.status(500).json({ 
+      success: false, 
+      message: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 };
