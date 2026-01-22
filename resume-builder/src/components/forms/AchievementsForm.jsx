@@ -57,7 +57,7 @@ const AchievementsForm = ({
   };
 
   const addAchievement = () => {
-    if (!draftAchievement.title.trim()) return;
+    if (!draftAchievement.description.trim()) return;
     setFormData((prev) => ({
       ...prev,
       achievements: [...prev.achievements, draftAchievement],

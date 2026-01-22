@@ -11,6 +11,21 @@ h1, h2, h3 {
 }
 
 
+/* Resume section headings */
+.resume-preview h2,
+.resume-preview h3 {
+  font-weight: 700;          /* bold */
+  letter-spacing: 0.04em;    /* ATS-safe spacing */
+  text-transform: uppercase;
+  color: #111827;            /* gray-900 */
+}
+
+/* Optional: tighten spacing below headings */
+.resume-preview h2 {
+  margin-bottom: 0.25rem;
+}
+
+
 @keyframes formFadeUp {
   from {
     opacity: 0;
