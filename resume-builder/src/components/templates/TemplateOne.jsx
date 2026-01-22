@@ -68,7 +68,7 @@ const TemplateOne = ({
               </div>
             )}
 
-            <Contact formData={formData} />
+            <Contact formData={formData} setResumeStep={setResumeStep} setSearchParams={setSearchParams} />
           </div>
 
           <div className="h-px bg-gray-200 my-2" />

@@ -7,6 +7,7 @@ import {
   Globe,
   Pencil
 } from "lucide-react";
+import { scrollToTop } from '../../utils/scrollToTop';
 
 
 
