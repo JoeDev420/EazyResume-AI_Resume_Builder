@@ -45,7 +45,7 @@ const TemplateThree = ({
         </div>
       )}
 
-      <div className="form-animate w-[750px] min-h-[700px] flex justify-center bg-white border border-gray-200 shadow-sm">
+      <div className="form-animate w-[750px] min-h-[700px] flex justify-center bg-white">
         <div className={`max-w-[750px] w-full text-gray-800 ${resumeStep === 1 ? "sticky top-0" : ""}`}>
 
           <div className="bg-slate-800 text-white px-6 py-4 flex items-center gap-5 justify-center relative">
@@ -120,7 +120,7 @@ const TemplateThree = ({
                   .map((id) => {
                     const Section = SECTION_MAP[id];
                     return (
-                      <div key={id} className="last:border-none">
+                      <div key={id} className="">
                         <Section formData={formData} />
                       </div>
                     );

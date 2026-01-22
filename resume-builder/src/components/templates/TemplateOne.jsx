@@ -40,7 +40,7 @@ const TemplateOne = ({
         </div>
       )}
 
-      <div className={`w-[750px] flex min-h-[500px] justify-center self-start ${resumeStep===1 ? "sticky top-0" : ""} bg-white border border-gray-200 shadow-sm`}>
+      <div className={`w-[750px] flex min-h-[500px] justify-center self-start ${resumeStep===1 ? "sticky top-0" : ""} bg-white`}>
 
         <div className="max-w-[750px] w-full text-gray-800 px-6 py-4">
 
