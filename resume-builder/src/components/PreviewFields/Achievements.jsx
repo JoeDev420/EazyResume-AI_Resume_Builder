@@ -29,7 +29,7 @@ const Achievements = ({ formData,setEditingIndex,setResumeStep,setDraftAchieveme
           
 
         <div className="flex gap-2"> 
-          <div className="font-medium">
+          <div className="font-medium text-md">
             {item.title}
           </div>
 

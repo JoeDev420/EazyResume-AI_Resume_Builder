@@ -32,7 +32,7 @@ const Education = ({ formData,setDraftEducation,setResumeStep,setEditingIndex,se
           
 
           <div className="flex justify-between items-start text-sm font-medium gap-4">
-            <span className="flex-1 inline-flex items-center gap-1">
+            <span className="flex-1 inline-flex items-center gap-1 text-md">
               {edu.degree}
               {edu.field && ` — ${edu.field}`}
 

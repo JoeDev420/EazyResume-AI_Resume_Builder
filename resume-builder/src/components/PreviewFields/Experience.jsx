@@ -35,7 +35,7 @@ import { scrollToTop } from "../../utils/scrollToTop";
             <div className="flex items-start justify-between text-sm font-medium">
 
              <div className="flex justify-start items-start gap-3">
-              <span className="flex">{job.role}</span>
+              <span className="flex text-md">{job.role}</span>
 
               <button
               
