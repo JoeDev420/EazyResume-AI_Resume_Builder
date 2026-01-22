@@ -1,4 +1,4 @@
-import { Pencil,Trash2 } from "lucide-react";
+import { Pencil,Trash2,ExternalLink } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { scrollToTop } from "../../utils/scrollToTop";
 
@@ -27,6 +27,18 @@ const Projects = ({ formData, setDraftProject, setEditingIndex, setResumeStep,se
         <div key={i} className="mb-3 pl-3">
           <div className="flex items-center gap-2 text-sm font-medium">
             <span>{project.title}</span>
+
+            {project.liveLink && (
+            <a
+              href={project.liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-700 inline-flex items-center gap-1 text-xs"
+            >
+              <ExternalLink size={12} />
+              <span>Live</span>
+            </a>
+          )}
 
 <button
               
@@ -80,6 +92,9 @@ const Projects = ({ formData, setDraftProject, setEditingIndex, setResumeStep,se
           <div className="text-sm italic text-gray-600">
             {project.type}
           </div>
+
+          
+
 
           <p className="text-sm mt-1 text-gray-700 leading-relaxed">
             {project.description}

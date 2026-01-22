@@ -55,6 +55,7 @@ const ProjectsForm = ({
       title: "",
       type: "",
       description: "",
+      liveLink: ""
     });
     setEditingIndex(null);
     setDeletionIndex(null);
@@ -162,6 +163,20 @@ const ProjectsForm = ({
             className="border border-gray-300 p-2"
           />
         </div>
+
+
+        <div className="flex flex-col gap-1">
+          <label>Live Project Link</label>
+          <input
+            type="url"
+            name="liveLink"
+            placeholder="https://example.com"
+            value={draftProject.liveLink}
+            onChange={handleChange}
+            className="border border-gray-300 p-2"
+          />
+        </div>
+
 
         <div className="flex flex-col gap-1">
 

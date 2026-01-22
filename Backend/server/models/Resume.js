@@ -167,6 +167,10 @@ const ResumeSchema = new mongoose.Schema(
               type: String,
               default: "",
               },
+              liveLink:{
+              type: String,
+              default: "",
+              }
           },
           ],
 

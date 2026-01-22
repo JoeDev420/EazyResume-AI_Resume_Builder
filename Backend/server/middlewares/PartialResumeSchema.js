@@ -184,26 +184,33 @@ export const ExperienceSchema = Joi.object({
 
 /* -------------------- PROJECTS -------------------- */
 export const ProjectItemSchema = Joi.object({
-    _id: Joi.any(),
+  _id: Joi.any(),
 
-    title: Joi.string()
-        .min(2).max(80)
-        .pattern(/^[\p{L}0-9\s.'&#/+()-]*$/u)
-        .allow("")
-        .trim(),
+  title: Joi.string()
+    .min(2).max(80)
+    .pattern(/^[\p{L}0-9\s.'&#/+()-]*$/u)
+    .allow("")
+    .trim(),
 
-    type: Joi.string()
-        .max(60)
-        .pattern(/^[\p{L}0-9\s./,+-]*$/u)
-        .allow("")
-        .trim(),
+  type: Joi.string()
+    .max(60)
+    .pattern(/^[\p{L}0-9\s./,+-]*$/u)
+    .allow("")
+    .trim(),
 
-    description: Joi.string()
-        .max(600)
-        .pattern(/^[^<>]*$/)
-        .allow("")
-        .trim()
+  description: Joi.string()
+    .max(600)
+    .pattern(/^[^<>]*$/)
+    .allow("")
+    .trim(),
+
+  liveLink: Joi.string()
+    .uri()
+    .max(150)
+    .allow("")
+    .trim()
 });
+
 
 export const ProjectsSchema = Joi.object({
     resumeStep: Joi.number().valid(6),
