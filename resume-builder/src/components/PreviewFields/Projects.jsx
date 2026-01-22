@@ -33,7 +33,7 @@ const Projects = ({
         <div key={i} className="mb-3 pl-3">
           {/* TITLE ROW */}
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-900">
+            <span className="text-md font-medium text-gray-900">
               {project.title}
             </span>
 
