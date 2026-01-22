@@ -89,7 +89,7 @@ const TemplateOne = ({
                       const Section = SECTION_MAP[id];
                       return (
                         <SortableItem key={id} id={id}>
-                          <div className="pb-1 border-b last:border-none hover:bg-gray-50 transition rounded-md px-2">
+                          <div className=" hover:bg-gray-50 transition rounded-md px-2">
                             <Section
                               formData={formData}
                               setDraftEducation={setDraftEducation}
