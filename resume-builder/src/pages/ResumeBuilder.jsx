@@ -203,6 +203,23 @@ const ResumeBuilder = () => {
   });
 };
 
+const FormFooter = ({ onGoToEnd }) => {
+  return (
+    <div className="flex justify-end mt-6">
+      <button
+        type="button"
+        onClick={onGoToEnd}
+        className="w-32 h-10 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition"
+      >
+        Go to End
+      </button>
+    </div>
+  );
+};
+
+
+
+
 
 
   return (
@@ -280,6 +297,8 @@ const ResumeBuilder = () => {
               imageLoading = {imageLoading}
               setImageLoading = {setImageLoading}
             />
+
+            <FormFooter />
           
         </div>}
 
@@ -295,6 +314,8 @@ const ResumeBuilder = () => {
           setPreviewLoading={setPreviewLoading}
                                   
           />
+
+          <FormFooter />
 
         </div>}
 
@@ -317,6 +338,7 @@ const ResumeBuilder = () => {
                                   
           />
 
+          <FormFooter />
 
         </div>}
 
@@ -331,6 +353,8 @@ const ResumeBuilder = () => {
           setPreviewLoading={setPreviewLoading}  
        
           />
+
+          <FormFooter />
 
         </div>}
 
@@ -350,6 +374,8 @@ const ResumeBuilder = () => {
           deletionIndex={deletionIndex}
           setDeletionIndex={setDeletionIndex}
           />
+
+          <FormFooter />
 
         </div>}
 
@@ -371,6 +397,8 @@ const ResumeBuilder = () => {
           setDeletionIndex={setDeletionIndex}
           />
 
+          <FormFooter />
+
      
         </div>}
 
@@ -391,6 +419,8 @@ const ResumeBuilder = () => {
           setDeletionIndex={setDeletionIndex}      
           />
 
+          <FormFooter />
+
         </div>
         }
 
@@ -410,6 +440,8 @@ const ResumeBuilder = () => {
           <AtsScan 
           formData={formData} 
           />
+
+          <FormFooter />
 
         </div>
         }
@@ -436,18 +468,14 @@ const ResumeBuilder = () => {
                 {publishLoading?<LoadingSpinner />:"Publish"}
 
               </button>
+
+              <FormFooter />
+
             </div>
           )}
 
 
-          <button
-            type="button"
-            onClick={goToEnd}
-            className="absolute bottom-45 right-6 w-25 h-10  text-white bg-blue-500 rounded"
-          >
-            Go to End
-          </button>
-
+          
 
 
 
