@@ -14,7 +14,7 @@ const Preview = () => {
   const [searchParams] = useSearchParams();
   const isPrint = searchParams.get("print") === "true"; // Hide buttons in print mode
 
-  const Download = async () => {
+  const Download = async () => {  
     window.open(`${import.meta.env.VITE_API_URL}/pdf/resume/${resumeSlug}`, "_blank");
   };
 

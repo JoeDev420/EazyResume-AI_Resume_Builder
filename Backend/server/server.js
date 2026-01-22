@@ -30,7 +30,7 @@ app.use('/api/user',userRouter)
 app.use('/api/resume',ResumeRouter)
 app.use('/api/ai',aiRouter)
 app.use('/api/Oauth',authRouter)
-app.use("/pdf", pdfRouter);
+app.use("/api/pdf", pdfRouter);
 app.use("/api/payment", PaymentRouter);
 
 app.get('/',(req,res)=>{
