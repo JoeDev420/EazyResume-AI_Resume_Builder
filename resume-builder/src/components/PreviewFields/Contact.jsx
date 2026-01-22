@@ -74,12 +74,22 @@ const Contact = ({formData,textColor,setResumeStep}) => {
             </div>
 
               <div className="flex items-center justify-center gap-2 text-blue-400 text-sm">
-                 {formData.website.length!=0?formData.website.map((website,i)=>(
-                <div className='flex items-center justify-center gap-1'  key={i}>
-                    <Globe size={12}/> <div>{formData.websiteShort[i]}</div>
+                 {formData.website?.length > 0 && (
+                <div className="flex flex-col gap-1">
+                  {formData.website.map((url, i) => (
+                    <a
+                      key={i}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline text-sm"
+                    >
+                      {formData.websiteShort?.[i] || url}
+                    </a>
+                  ))}
                 </div>
+              )}
 
-                ) ): ""}
               </div>
 
         </>
