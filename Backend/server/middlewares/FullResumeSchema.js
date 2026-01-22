@@ -61,11 +61,12 @@ export const FullResumeSchema = Joi.object({
     .trim(),
 
   location: Joi.string()
-    .max(50)
-    .pattern(/^[\p{L}\s,.'-]+$/u)
-    .allow("")
-    .default("")
-    .trim(),
+  .max(50)
+  .pattern(/^[\p{L}0-9\s,.'-]+$/u)
+  .allow("")
+  .default("")
+  .trim(),
+
 
   linkedin: Joi.string()
     .uri()

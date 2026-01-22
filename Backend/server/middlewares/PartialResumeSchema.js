@@ -40,10 +40,11 @@ export const PersonalInfoSchema = Joi.object({
         .trim(),
 
     location: Joi.string()
-        .min(2).max(50)
-        .pattern(/^[\p{L}\s,.'-]+$/u)
-        .allow("")
-        .trim(),
+    .min(2)
+    .max(50)
+    .pattern(/^[\p{L}0-9\s,.'-]+$/u)
+    .allow("")
+    .trim(),
 
     linkedin: Joi.string()
         .uri()
