@@ -69,21 +69,7 @@ const TemplateTwo = ({
                     )}
                   </div>
 
-                  <button
-                    onClick={() => {
-                      setResumeStep(1);
-                      setSearchParams((params) => {
-                        const p = new URLSearchParams(params);
-                        p.set("resumeStep", 1);
-                        return p;
-                      });
-                      scrollToTop();
-                    }}
-                    className="absolute top-0 -right-4 bg-white rounded-full p-1 shadow"
-                    aria-label="Edit Profile"
-                  >
-                    <Pencil className="w-4 h-4 text-blue-600 hover:text-blue-700" />
-                  </button>
+                  
                 </div>
               )}
 

@@ -78,7 +78,13 @@ const SkillsForm = ({
             placeholder="Enter a skill (e.g., JavaScript, Project Management)"
             value={draftSkill}
             onChange={(e) => setDraftSkill(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addSkill()}
+            onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              addSkill();
+            }
+          }}
+
             className="flex-1 border border-gray-300 p-2"
           />
 

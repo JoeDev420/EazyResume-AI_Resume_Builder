@@ -16,6 +16,22 @@ const Contact = ({formData,textColor}) => {
 
               <h1 className={`text-[21px] text-md font-semibold text-center wrap-break-word min-w-0 ${textColor||"text-gray-600"}`}>
                 {formData.fullName || "Your Name"}
+                
+                <button
+                                  onClick={() => {
+                                    setResumeStep(1);
+                                    setSearchParams((params) => {
+                                      const p = new URLSearchParams(params);
+                                      p.set("resumeStep", 1);
+                                      return p;
+                                    });
+                                    scrollToTop();
+                                  }}
+                                  className="absolute top-0 -right-4 bg-white rounded-full p-1 shadow"
+                                >
+                                  <Pencil className="w-4 h-4 text-blue-600 hover:text-blue-700" />
+                 </button>
+
               </h1>
 
               <h1 className="text-xl font-semibold text-center wrap-break-word min-w-0">
