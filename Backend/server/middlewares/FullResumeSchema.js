@@ -3,135 +3,107 @@ import {
   AchievementItemSchema,
   EducationItemSchema,
   ExperienceItemSchema,
-  ProjectItemSchema
+  ProjectItemSchema,
 } from "./PartialResumeSchema.js";
 
-export const FullResumeSchema = Joi.object({
+/* ──────────────────────────────────────────────
+   GLOBAL OPTIONAL STRING FIX
+────────────────────────────────────────────── */
+const optionalString = (regex, min = 0, max = 255) =>
+  Joi.string()
+    .trim()
+    .min(min)
+    .max(max)
+    .pattern(regex)
+    .allow("")
+    .empty("");
 
-  
+export const FullResumeSchema = Joi.object({
+  /* ───────── REQUIRED ───────── */
   resumeId: Joi.string()
     .trim()
     .required()
     .messages({
       "any.required": "Resume ID is missing",
-      "string.empty": "Resume ID is required"
+      "string.empty": "Resume ID is required",
     }),
 
+  /* ───────── BASIC META ───────── */
+  title: optionalString(/.*/, 3, 80).default("Untitled Resume"),
 
-  title: Joi.string()
-    .min(3)
-    .max(80)
-    .allow("")
-    .default("Untitled Resume"),
-
-  templateId: Joi.number()
-    .integer()
-    .min(1)
-    .default(1),
+  templateId: Joi.number().integer().min(1).default(1),
 
   public: Joi.boolean().default(false),
 
-  
-  fullName: Joi.string()
-    .min(3)
-    .max(50)
-    .trim()
-    .pattern(/^[\p{L}][\p{L}\s.'-]*$/u)
-    .allow("")
-    .default(""),
+  /* ───────── PERSONAL INFO ───────── */
+  fullName: optionalString(/^[\p{L}][\p{L}\s.'-]*$/u, 3, 50).default(""),
 
-  profession: Joi.string()
-    .min(2)
-    .max(50)
-    .trim()
-    .pattern(/^[\p{L}0-9\s./&+\-#]*$/u)
-    .allow("")
-    .default(""),
+  profession: optionalString(
+    /^[\p{L}0-9\s./&+\-#]*$/u,
+    2,
+    50
+  ).default(""),
 
-  email: Joi.string()
-    .email()
-    .max(60)
-    .trim()
-    .allow("")
-    .default(""),
+  email: optionalString(/.*/, 0, 60).email().default(""),
 
-  phone: Joi.string()
-    .max(20)
-    .trim()
-    .pattern(/^[0-9+\-\s()]*$/)
-    .allow("")
-    .default(""),
+  phone: optionalString(/^[0-9+\-\s()]*$/, 0, 20).default(""),
 
-  location: Joi.string()
-    .max(50)
-    .trim()
-    .pattern(/^[\p{L}\s,.'-]+$/u)
-    .allow("")
-    .default(""),
+  location: optionalString(/^[\p{L}\s,.'-]+$/u, 0, 50).default(""),
 
-  linkedin: Joi.string()
-    .uri()
-    .allow("")
-    .default(""),
+  linkedin: optionalString(/.*/, 0, 100).uri().default(""),
+
+  linkedinShort: optionalString(/.*/, 0, 100).default(""),
 
   website: Joi.array()
-    .items(Joi.string().uri().max(100))
+    .items(optionalString(/.*/, 0, 100).uri())
     .max(5)
     .default([]),
 
-  linkedinShort: Joi.string()
-  .max(100)
-  .trim()
-  .allow("")
-  .default(""),
-
   websiteShort: Joi.array()
-    .items(Joi.string().max(100).trim())
+    .items(optionalString(/.*/, 0, 100))
     .max(5)
     .default([]),
 
   profileImageObject: Joi.object({
-    profileImageUrl: Joi.string().uri().allow("").default(""),
+    profileImageUrl: optionalString(/.*/, 0, 200).uri().default(""),
   }).default({ profileImageUrl: "" }),
 
-  professionalsummary: Joi.string()
-    .max(500)
-    .trim()
-    .allow("")
-    .default(""),
+  /* ───────── SUMMARY ───────── */
+  professionalsummary: optionalString(/^[^<>]*$/, 0, 500).default(""),
 
+  /* ───────── EDUCATION ───────── */
   education: Joi.array()
     .items(EducationItemSchema)
     .max(5)
     .default([]),
 
+  /* ───────── SKILLS ───────── */
   skills: Joi.array()
     .items(
-      Joi.string()
-        .min(1)
-        .max(40)
-        .trim()
-        .pattern(/^[\p{L}0-9.+#/&\s-]*$/u)
+      optionalString(/^[\p{L}0-9.+#/&\s-]*$/u, 1, 40)
     )
     .max(20)
     .default([]),
 
+  /* ───────── EXPERIENCE ───────── */
   experience: Joi.array()
     .items(ExperienceItemSchema)
     .max(10)
     .default([]),
 
+  /* ───────── PROJECTS ───────── */
   projects: Joi.array()
     .items(ProjectItemSchema)
     .max(10)
     .default([]),
 
+  /* ───────── ACHIEVEMENTS ───────── */
   achievements: Joi.array()
     .items(AchievementItemSchema)
     .max(10)
     .default([]),
 
-
+  /* ───────── UI CONFIG ───────── */
   sectionOrder: Joi.array()
     .items(
       Joi.string().valid(
@@ -151,7 +123,7 @@ export const FullResumeSchema = Joi.object({
       "skills",
       "experience",
       "projects",
-      "achievements"
+      "achievements",
     ]),
 
   sectionVisibility: Joi.object({
@@ -161,7 +133,7 @@ export const FullResumeSchema = Joi.object({
     skills: Joi.boolean().default(true),
     experience: Joi.boolean().default(true),
     projects: Joi.boolean().default(true),
-    achievements: Joi.boolean().default(true)
+    achievements: Joi.boolean().default(true),
   }).default({
     profilePic: true,
     summary: true,
@@ -169,13 +141,11 @@ export const FullResumeSchema = Joi.object({
     skills: true,
     experience: true,
     projects: true,
-    achievements: true
-  })
-
-})
-.options({
+    achievements: true,
+  }),
+}).options({
   abortEarly: false,
-  allowUnknown: true,     // frontend sends extra fields
-  stripUnknown: true,     // REMOVE them safely
-  convert: false
+  allowUnknown: true,
+  stripUnknown: true,
+  convert: false,
 });
