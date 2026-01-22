@@ -61,7 +61,14 @@ const Contact = ({formData,textColor,setResumeStep}) => {
 
               <span className="flex items-center gap-1 text-blue-400">
                 {formData.linkedin && <Linkedin size={12} />}
-                {formData.linkedinShort || ""}
+                            <a
+                href={formData.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
+                {formData.linkedinShort || formData.linkedin}
+              </a>
               </span>
 
             </div>
