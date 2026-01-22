@@ -209,7 +209,7 @@ const FormFooter = ({ onGoToEnd }) => {
       <button
         type="button"
         onClick={onGoToEnd}
-        className="w-32 h-10 border  text-white bg-blue-500 rounded transition"
+        className="w-25 h-10 border  text-white bg-blue-500 rounded transition"
       >
         Go to End
       </button>
