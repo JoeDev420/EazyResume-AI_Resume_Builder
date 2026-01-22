@@ -1,5 +1,5 @@
 import { Pencil, Trash2 } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import { scrollToTop } from "../../utils/scrollToTop.js";
 
 const Achievements = ({
@@ -10,6 +10,10 @@ const Achievements = ({
   setDeletionIndex
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+
+  // ✅ SAME AS EDUCATION
+  const isViewMode = location.pathname.startsWith("/view");
 
   const achievements = formData.achievements?.length
     ? formData.achievements
@@ -36,50 +40,53 @@ const Achievements = ({
               {item.title}
             </span>
 
-            {/* EDIT */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setDraftAchievement(item);
-                setEditingIndex(i);
-                setDeletionIndex(null);
-                setResumeStep(7);
+            {/* EDIT – hidden in view mode */}
+            {!isViewMode && (
+              <button
+                onClick={() => {
+                  setDraftAchievement(item);
+                  setEditingIndex(i);
+                  setDeletionIndex(null);
+                  setResumeStep(7);
 
-                setSearchParams((params) => {
-                  const p = new URLSearchParams(params);
-                  p.set("resumeStep", 7);
-                  return p;
-                });
+                  setSearchParams((params) => {
+                    const p = new URLSearchParams(params);
+                    p.set("resumeStep", 7);
+                    return p;
+                  });
 
-                scrollToTop();
-              }}
-              className={`${formData.achievements?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
-              aria-label="Edit Achievement"
-            >
-              <Pencil className="size-4 hover:scale-105" />
-            </button>
+                  scrollToTop();
+                }}
+                className="text-red-400 hover:text-red-500"
+                aria-label="Edit Achievement"
+              >
+                <Pencil className="size-4 hover:scale-105" />
+              </button>
+            )}
 
-            {/* DELETE */}
-            <button
-              onClick={() => {
-                setDraftAchievement(item);
-                setResumeStep(7);
-                setDeletionIndex(i);
-                setEditingIndex(null);
+            {/* DELETE – hidden in view mode */}
+            {!isViewMode && (
+              <button
+                onClick={() => {
+                  setDraftAchievement(item);
+                  setResumeStep(7);
+                  setDeletionIndex(i);
+                  setEditingIndex(null);
 
-                setSearchParams((params) => {
-                  const p = new URLSearchParams(params);
-                  p.set("resumeStep", 7);
-                  return p;
-                });
+                  setSearchParams((params) => {
+                    const p = new URLSearchParams(params);
+                    p.set("resumeStep", 7);
+                    return p;
+                  });
 
-                scrollToTop();
-              }}
-              className={`${formData.achievements?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
-              aria-label="Delete Achievement"
-            >
-              <Trash2 className="size-4 hover:scale-105" />
-            </button>
+                  scrollToTop();
+                }}
+                className={`${formData.achievements?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
+                aria-label="Delete Achievement"
+              >
+                <Trash2 className="size-4 hover:scale-105" />
+              </button>
+            )}
           </div>
 
           {/* ISSUER */}

@@ -1,5 +1,5 @@
 import { Pencil, Trash2, ExternalLink } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import { scrollToTop } from "../../utils/scrollToTop";
 
 const Projects = ({
@@ -10,6 +10,10 @@ const Projects = ({
   setDeletionIndex
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+
+  // ✅ SAME LOGIC AS EDUCATION / ACHIEVEMENTS
+  const isViewMode = location.pathname.startsWith("/view");
 
   const projects = formData.projects?.length
     ? formData.projects
@@ -37,6 +41,7 @@ const Projects = ({
               {project.title}
             </span>
 
+            {/* LIVE LINK – visible everywhere */}
             {project.liveLink && (
               <a
                 href={project.liveLink}
@@ -49,49 +54,53 @@ const Projects = ({
               </a>
             )}
 
-            {/* EDIT */}
-            <button
-              onClick={() => {
-                setDraftProject(project);
-                setResumeStep(6);
-                setDeletionIndex(null);
-                setEditingIndex(i);
+            {/* EDIT – hidden in view mode */}
+            {!isViewMode && (
+              <button
+                onClick={() => {
+                  setDraftProject(project);
+                  setResumeStep(6);
+                  setDeletionIndex(null);
+                  setEditingIndex(i);
 
-                setSearchParams((params) => {
-                  const p = new URLSearchParams(params);
-                  p.set("resumeStep", 6);
-                  return p;
-                });
+                  setSearchParams((params) => {
+                    const p = new URLSearchParams(params);
+                    p.set("resumeStep", 6);
+                    return p;
+                  });
 
-                scrollToTop();
-              }}
-              className={`${formData.projects?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
-              aria-label="Edit Project"
-            >
-              <Pencil className="size-4 hover:scale-105" />
-            </button>
+                  scrollToTop();
+                }}
+                className="text-red-400 hover:text-red-500"
+                aria-label="Edit Project"
+              >
+                <Pencil className="size-4 hover:scale-105" />
+              </button>
+            )}
 
-            {/* DELETE */}
-            <button
-              onClick={() => {
-                setDraftProject(project);
-                setResumeStep(6);
-                setDeletionIndex(i);
-                setEditingIndex(null);
+            {/* DELETE – hidden in view mode */}
+            {!isViewMode && (
+              <button
+                onClick={() => {
+                  setDraftProject(project);
+                  setResumeStep(6);
+                  setDeletionIndex(i);
+                  setEditingIndex(null);
 
-                setSearchParams((params) => {
-                  const p = new URLSearchParams(params);
-                  p.set("resumeStep", 6);
-                  return p;
-                });
+                  setSearchParams((params) => {
+                    const p = new URLSearchParams(params);
+                    p.set("resumeStep", 6);
+                    return p;
+                  });
 
-                scrollToTop();
-              }}
-              className={`${formData.projects?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
-              aria-label="Delete Project"
-            >
-              <Trash2 className="size-4 hover:scale-105" />
-            </button>
+                  scrollToTop();
+                }}
+                className={`${formData.projects?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
+                aria-label="Delete Project"
+              >
+                <Trash2 className="size-4 hover:scale-105" />
+              </button>
+            )}
           </div>
 
           {/* TYPE / TECH */}

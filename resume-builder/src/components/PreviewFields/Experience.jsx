@@ -1,7 +1,7 @@
 import React from "react";
 import DateFormatter from "../DateFormatter";
 import { Pencil, Trash2 } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom"; // Add useLocation
 import { scrollToTop } from "../../utils/scrollToTop";
 
 const Experience = ({
@@ -12,6 +12,8 @@ const Experience = ({
   setDeletionIndex
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation(); // Add this
+  const isViewMode = location.pathname.startsWith("/view"); // Add this
 
   const experiences = formData.experience?.length
     ? formData.experience
@@ -47,49 +49,53 @@ const Experience = ({
                 </span>
               )}
 
-              {/* EDIT */}
-              <button
-                onClick={() => {
-                  setDraftExperience(job);
-                  setResumeStep(5);
-                  setDeletionIndex(null);
-                  setEditingIndex(i);
+              {/* EDIT - Hide in view mode */}
+              {!isViewMode && ( // Add this condition
+                <button
+                  onClick={() => {
+                    setDraftExperience(job);
+                    setResumeStep(5);
+                    setDeletionIndex(null);
+                    setEditingIndex(i);
 
-                  setSearchParams((params) => {
-                    const p = new URLSearchParams(params);
-                    p.set("resumeStep", 5);
-                    return p;
-                  });
+                    setSearchParams((params) => {
+                      const p = new URLSearchParams(params);
+                      p.set("resumeStep", 5);
+                      return p;
+                    });
 
-                  scrollToTop();
-                }}
-                className={`${formData.experience?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
-                aria-label="Edit Experience"
-              >
-                <Pencil className="size-4 hover:scale-105" />
-              </button>
+                    scrollToTop();
+                  }}
+                  className={`${formData.experience?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
+                  aria-label="Edit Experience"
+                >
+                  <Pencil className="size-4 hover:scale-105" />
+                </button>
+              )}
 
-              {/* DELETE */}
-              <button
-                onClick={() => {
-                  setDraftExperience(job);
-                  setResumeStep(5);
-                  setDeletionIndex(i);
-                  setEditingIndex(null);
+              {/* DELETE - Hide in view mode */}
+              {!isViewMode && ( // Add this condition
+                <button
+                  onClick={() => {
+                    setDraftExperience(job);
+                    setResumeStep(5);
+                    setDeletionIndex(i);
+                    setEditingIndex(null);
 
-                  setSearchParams((params) => {
-                    const p = new URLSearchParams(params);
-                    p.set("resumeStep", 5);
-                    return p;
-                  });
+                    setSearchParams((params) => {
+                      const p = new URLSearchParams(params);
+                      p.set("resumeStep", 5);
+                      return p;
+                    });
 
-                  scrollToTop();
-                }}
-                className={`${formData.experience?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
-                aria-label="Delete Experience"
-              >
-                <Trash2 className="size-4 hover:scale-105" />
-              </button>
+                    scrollToTop();
+                  }}
+                  className={`${formData.experience?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
+                  aria-label="Delete Experience"
+                >
+                  <Trash2 className="size-4 hover:scale-105" />
+                </button>
+              )}
             </div>
 
             {/* DATES */}
