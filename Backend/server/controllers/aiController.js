@@ -42,7 +42,7 @@ export const enhanceData = async (req, res) => {
           messages: [
             {
               role: "system",
-              content: "You are given resume data of a user, and you are supposed to return it in a polished form while making sure its of the correct length.you can also return a longer length version which sticks to the user's context but make sure its not too long. only return improved data, nothing else"
+              content: "You are given resume data of a user, and you are supposed to return it in a polished form while making sure its of the correct length.you can also return a longer length version which sticks to the user's context but make sure its not too long but only return either one not both. only return improved data, nothing else no heading no endings only relevant data to the user"
               
             
             },
