@@ -8,10 +8,13 @@ import {
   Pencil
 } from "lucide-react";
 import { scrollToTop } from '../../utils/scrollToTop';
+import { useSearchParams } from 'react-router-dom';
 
 
 
-const Contact = ({formData,textColor}) => {
+const Contact = ({formData,textColor,setResumeStep}) => {
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
 
   return (
