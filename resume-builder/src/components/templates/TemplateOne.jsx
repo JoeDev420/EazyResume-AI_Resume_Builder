@@ -32,7 +32,7 @@ const TemplateOne = ({
   const [searchParams, setSearchParams] = useSearchParams();
 
   return (
-    <div className="form-animate relative w-[750px] min-h-[700px] font-[Inter] mt-5 resume-preview">
+    <div className="form-animate relative w-[750px] min-h-[700px] font-[Inter] mt-5 ">
 
       {previewLoading && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/70">
