@@ -443,7 +443,7 @@ const ResumeBuilder = () => {
           <button
             type="button"
             onClick={goToEnd}
-            className="absolute right-0 mt-6 w-full h-10 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition"
+            className="absolute right-0 bottom-0 mt-6 w-31 h-10 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition"
           >
             Go to End
           </button>
