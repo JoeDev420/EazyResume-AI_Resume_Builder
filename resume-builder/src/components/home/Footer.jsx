@@ -20,15 +20,6 @@ const Footer = () => {
           </a>
 
           <a
-            href="https://www.naukri.com/mnjuser/profile?id=&altresid"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-500 transition"
-          >
-            Naukri.com
-          </a>
-
-          <a
             href="https://www.linkedin.com/in/anant-singh-b33a93373/"
             target="_blank"
             rel="noopener noreferrer"
