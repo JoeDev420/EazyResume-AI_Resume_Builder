@@ -68,7 +68,7 @@ const Preview = () => {
   }, [resumeSlug]);
 
   if (!formData)
-    return <div className="text-center py-20">Resume Not Public</div>;
+    return <div className="text-center py-20">Loading...</div>;
 
   return (
     <div className="min-h-screen bg-gray-100 px-3 sm:px-6 py-4 flex flex-col items-center">
