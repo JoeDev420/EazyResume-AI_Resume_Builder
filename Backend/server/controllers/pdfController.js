@@ -6,6 +6,7 @@ import chromium from "@sparticuz/chromium";
 
 export const downloadResumePDF = async (req, res) => {
   try {
+    console.log("hi")
     const { slug } = req.params;
     const userId = req.userId || null;
 
