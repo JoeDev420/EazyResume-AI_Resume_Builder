@@ -16,7 +16,7 @@ const Contact = ({formData,textColor}) => {
   return (
     <>
 
-              <h1 className={`text-[21px] text-md font-semibold text-center wrap-break-word min-w-0 ${textColor||"text-gray-600"}`}>
+              <h1 className={` relative text-[21px] text-md font-semibold text-center wrap-break-word min-w-0 ${textColor||"text-gray-600"}`}>
                 {formData.fullName || "Your Name"}
 
                 <button
