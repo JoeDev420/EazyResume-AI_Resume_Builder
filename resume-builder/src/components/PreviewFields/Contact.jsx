@@ -5,7 +5,9 @@ import {
   MapPin,
   Linkedin,
   Globe,
+  Pencil
 } from "lucide-react";
+
 
 
 const Contact = ({formData,textColor}) => {
@@ -16,7 +18,7 @@ const Contact = ({formData,textColor}) => {
 
               <h1 className={`text-[21px] text-md font-semibold text-center wrap-break-word min-w-0 ${textColor||"text-gray-600"}`}>
                 {formData.fullName || "Your Name"}
-                
+
                 <button
                                   onClick={() => {
                                     setResumeStep(1);
