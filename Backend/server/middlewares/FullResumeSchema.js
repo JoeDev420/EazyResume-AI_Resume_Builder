@@ -8,7 +8,6 @@ import {
 
 export const FullResumeSchema = Joi.object({
 
-  
   resumeId: Joi.string()
     .trim()
     .required()
@@ -17,12 +16,12 @@ export const FullResumeSchema = Joi.object({
       "string.empty": "Resume ID is required"
     }),
 
-
   title: Joi.string()
     .min(3)
     .max(80)
     .allow("")
-    .default("Untitled Resume"),
+    .default("Untitled Resume")
+    .trim(),
 
   templateId: Joi.number()
     .integer()
@@ -31,59 +30,59 @@ export const FullResumeSchema = Joi.object({
 
   public: Joi.boolean().default(false),
 
-  
   fullName: Joi.string()
     .min(3)
     .max(50)
-    .trim()
     .pattern(/^[\p{L}][\p{L}\s.'-]*$/u)
     .allow("")
-    .default(""),
+    .default("")
+    .trim(),
 
   profession: Joi.string()
     .min(2)
     .max(50)
-    .trim()
     .pattern(/^[\p{L}0-9\s./&+\-#]*$/u)
     .allow("")
-    .default(""),
+    .default("")
+    .trim(),
 
   email: Joi.string()
     .email()
     .max(60)
-    .trim()
     .allow("")
-    .default(""),
+    .default("")
+    .trim(),
 
   phone: Joi.string()
     .max(20)
-    .trim()
     .pattern(/^[0-9+\-\s()]*$/)
     .allow("")
-    .default(""),
+    .default("")
+    .trim(),
 
   location: Joi.string()
     .max(50)
-    .trim()
     .pattern(/^[\p{L}\s,.'-]+$/u)
     .allow("")
-    .default(""),
+    .default("")
+    .trim(),
 
   linkedin: Joi.string()
     .uri()
     .allow("")
-    .default(""),
+    .default("")
+    .trim(),
 
   website: Joi.array()
-    .items(Joi.string().uri().max(100))
+    .items(Joi.string().uri().max(100).trim())
     .max(5)
     .default([]),
 
   linkedinShort: Joi.string()
-  .max(100)
-  .trim()
-  .allow("")
-  .default(""),
+    .max(100)
+    .allow("")
+    .default("")
+    .trim(),
 
   websiteShort: Joi.array()
     .items(Joi.string().max(100).trim())
@@ -91,14 +90,14 @@ export const FullResumeSchema = Joi.object({
     .default([]),
 
   profileImageObject: Joi.object({
-    profileImageUrl: Joi.string().uri().allow("").default(""),
+    profileImageUrl: Joi.string().uri().allow("").default("").trim(),
   }).default({ profileImageUrl: "" }),
 
   professionalsummary: Joi.string()
     .max(500)
-    .trim()
     .allow("")
-    .default(""),
+    .default("")
+    .trim(),
 
   education: Joi.array()
     .items(EducationItemSchema)
@@ -110,8 +109,8 @@ export const FullResumeSchema = Joi.object({
       Joi.string()
         .min(1)
         .max(40)
-        .trim()
         .pattern(/^[\p{L}0-9.+#/&\s-]*$/u)
+        .trim()
     )
     .max(20)
     .default([]),
@@ -130,7 +129,6 @@ export const FullResumeSchema = Joi.object({
     .items(AchievementItemSchema)
     .max(10)
     .default([]),
-
 
   sectionOrder: Joi.array()
     .items(
@@ -175,7 +173,7 @@ export const FullResumeSchema = Joi.object({
 })
 .options({
   abortEarly: false,
-  allowUnknown: true,     // frontend sends extra fields
-  stripUnknown: true,     // REMOVE them safely
+  allowUnknown: true,   // frontend sends extra fields
+  stripUnknown: true,   // remove them safely
   convert: true
 });
