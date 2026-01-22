@@ -85,6 +85,16 @@ export const PersonalInfoSchema = Joi.object({
             "string.uri": "Please enter a valid LinkedIn URL",
             "string.pattern.base": "LinkedIn URL must be from linkedin.com"
         }),
+    linkedinShort: Joi.string()
+        .min(3)
+        .max(100)
+        .trim()
+        .allow("")
+        .messages({
+            "string.min": "LinkedIn display text is too short",
+            "string.max": "LinkedIn display text is too long",
+        }),
+    
     website: Joi.array()
         .items(
             Joi.string()
@@ -98,6 +108,19 @@ export const PersonalInfoSchema = Joi.object({
         )
         .max(5)
         .default([]),
+    websiteShort: Joi.array()
+  .items(
+    Joi.string()
+      .min(3)
+      .max(100)
+      .trim()
+      .messages({
+        "string.min": "Website display text is too short",
+        "string.max": "Website display text is too long",
+      })
+  )
+  .max(5)
+  .default([]),
     profileImageObject: Joi.object({
         profileImageUrl: Joi.string()
             .uri()

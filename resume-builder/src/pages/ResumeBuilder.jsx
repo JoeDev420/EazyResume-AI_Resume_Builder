@@ -56,7 +56,9 @@ const ResumeBuilder = () => {
     phone: "",
     location: "",
     linkedin: "",
+    linkedinShort:"",
     website: [],
+    websiteShort:[],
     experience: [],
     profileImageObject: {profileImageUrl:"",
     },
@@ -82,7 +84,6 @@ const ResumeBuilder = () => {
 
   const [deletionIndex,setDeletionIndex] = useState(null)
   
-
   const [draftEducation, setDraftEducation] = useState({
     institute: "",
     degree: "",

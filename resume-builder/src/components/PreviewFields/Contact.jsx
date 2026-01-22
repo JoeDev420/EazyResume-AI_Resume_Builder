@@ -39,7 +39,7 @@ const Contact = ({formData,textColor}) => {
 
               <span className="flex items-center gap-1 text-blue-400">
                 {formData.linkedin && <Linkedin size={12} />}
-                {formData.linkedin || ""}
+                {formData.linkedinShort || ""}
               </span>
 
             </div>
@@ -47,7 +47,7 @@ const Contact = ({formData,textColor}) => {
               <div className="flex items-center justify-center gap-2 text-blue-400 text-sm">
                  {formData.website.length!=0?formData.website.map((website,i)=>(
                 <div className='flex items-center justify-center gap-1'  key={i}>
-                    <Globe size={12}/> <div>{website}</div>
+                    <Globe size={12}/> <div>{formData.websiteShort[i]}</div>
                 </div>
 
                 ) ): ""}

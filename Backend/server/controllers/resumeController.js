@@ -22,8 +22,6 @@ const createSlug = (title,resumeId)=>{
 
 
 
-
-
 export const createResume = async (req, res) => {
 
 
@@ -107,7 +105,7 @@ export const updateResume = async (req, res) => {
   try {
     const userId = req.userId;
 
-    // 👇 take resumeId out, rest is the update payload
+    // take resumeId out, rest is the update payload
 
     const { resumeId,...resumeDataCopy } = req.body;
 
@@ -211,8 +209,8 @@ export const changeTitle =  async (req, res) => {
     try {
 
     
-
       const { resumeId, title } = req.body;
+      
       const userId = req.userId;
 
       const updated = await Resume.findOneAndUpdate(
@@ -229,6 +227,7 @@ export const changeTitle =  async (req, res) => {
     } catch (err) {
       res.status(500).json({ success: false, message:err.message });
     }
+
 
   }
 

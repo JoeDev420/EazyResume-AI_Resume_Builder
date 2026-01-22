@@ -79,6 +79,17 @@ export const FullResumeSchema = Joi.object({
     .max(5)
     .default([]),
 
+  linkedinShort: Joi.string()
+  .max(100)
+  .trim()
+  .allow("")
+  .default(""),
+
+  websiteShort: Joi.array()
+    .items(Joi.string().max(100).trim())
+    .max(5)
+    .default([]),
+
   profileImageObject: Joi.object({
     profileImageUrl: Joi.string().uri().allow("").default(""),
   }).default({ profileImageUrl: "" }),

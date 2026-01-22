@@ -91,9 +91,21 @@ const ResumeSchema = new mongoose.Schema(
             type: String,
             default: "",
             },
+            linkedinShort: {
+            type: String,
+            default: "",
+            trim: true,
+          },
             website: [{
             type: String,
           }],
+
+          websiteShort: [
+          {
+            type: String,
+            trim: true,
+          },
+        ],
 
 
            professionalsummary: {

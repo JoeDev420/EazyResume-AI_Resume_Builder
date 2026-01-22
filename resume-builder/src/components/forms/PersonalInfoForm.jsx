@@ -22,6 +22,8 @@ const PersonalInfoForm = ({ formData, setFormData, setResumeStep , resumeStep, s
       linkedin,
       website,
       profileImageObject,
+      linkedinShort,
+      websiteShort
       
 
     } = formData
@@ -36,7 +38,9 @@ const PersonalInfoForm = ({ formData, setFormData, setResumeStep , resumeStep, s
       location,
       linkedin,
       website,
-      profileImageObject
+      profileImageObject,
+      linkedinShort,
+      websiteShort
 
                   } 
 
@@ -69,17 +73,19 @@ const PersonalInfoForm = ({ formData, setFormData, setResumeStep , resumeStep, s
   // Add website
   // -------------------------------
   const websiteSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  if (!draftWebsite.trim()) return;
 
-    if (!draftWebsite.trim()) return;
+  setFormData((prev) => ({
+    ...prev,
+    website: [...prev.website, draftWebsite],
+    websiteShort: [...prev.websiteShort, getShortUrl(draftWebsite)],
+    change: true,
+  }));
 
-    setFormData((prev) => ({
-      ...prev,
-      website: [...prev.website, draftWebsite],
-    }));
+  setDraftWebsite("");
+};
 
-    setDraftWebsite("");
-  };
 
   // -------------------------------
   // Reset form
@@ -99,6 +105,8 @@ const PersonalInfoForm = ({ formData, setFormData, setResumeStep , resumeStep, s
       location: "",
       linkedin: "",
       website: [],
+      linkedinShort:"",
+      websiteShort:[]
 
     }));
 
@@ -139,13 +147,17 @@ const PersonalInfoForm = ({ formData, setFormData, setResumeStep , resumeStep, s
 };
 
 
-
-
-
+const getShortUrl = (url) => {
+  try {
+    const u = new URL(url);
+    return `${u.hostname}${u.pathname !== "/" ? u.pathname : ""}`;
+  } catch {
+    return url;
+  }
+};
 
 
   return (
-
 
     <>
 
@@ -286,16 +298,38 @@ const PersonalInfoForm = ({ formData, setFormData, setResumeStep , resumeStep, s
         </div>
 
         <div className="flex flex-col gap-1">
-          <label>LinkedIn Profile</label>
+          <label>LinkedIn Profile (URL)</label>
           <input
             name="linkedin"
             type="url"
             placeholder="https://linkedin.com/in/username"
             value={formData.linkedin}
+            onChange={(e) => {
+              const value = e.target.value;
+              setFormData((prev) => ({
+                ...prev,
+                linkedin: value,
+                linkedinShort: getShortUrl(value),
+                change: true,
+              }));
+            }}
+            className="h-10 border border-gray-300 p-2"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label>LinkedIn Display Text</label>
+          <input
+            name="linkedinShort"
+            type="text"
+            placeholder="linkedin.com/in/username"
+            value={formData.linkedinShort}
             onChange={handleChange}
             className="h-10 border border-gray-300 p-2"
           />
         </div>
+
+
 
         <div className="flex flex-col gap-1">
           <div className="flex justify-between">
@@ -316,6 +350,7 @@ const PersonalInfoForm = ({ formData, setFormData, setResumeStep , resumeStep, s
                   setFormData((prev) => ({
                     ...prev,
                     website: [],
+                    websiteShort:[]
                   }))
                 }
                 className="text-red-500 hover:text-red-700"
