@@ -25,7 +25,7 @@ const Achievements = ({ formData,setEditingIndex,setResumeStep,setDraftAchieveme
       </h2>
 
       {achievements.map((item, i) => (
-        <div key={i} className="mb-3 pl-3 text-sm flex flex-col">
+        <div key={i} className="mb-3 pl-3 flex flex-col">
           
 
         <div className="flex gap-2"> 
