@@ -210,7 +210,7 @@ const ExperienceForm = ({
             <label>Job Description</label>
             <button
               type="button"
-              className="flex items-center gap-2 text-purple-600 border border-purple-200 px-3 py-1.5 rounded-full hover:bg-purple-50 transition"
+              className="relative flex items-center gap-2 text-purple-600 border border-purple-200 px-3 py-1.5 rounded-full hover:bg-purple-50 transition"
               onClick={
                 user.premium
                   ? () => enhanceAi(draftExperience.details, "details", setDraftExperience, null, setAiLoading)
