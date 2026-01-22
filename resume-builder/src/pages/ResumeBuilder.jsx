@@ -209,7 +209,7 @@ const ResumeBuilder = () => {
 
     <div className="grid grid-cols-[3fr_4fr_1fr] bg-gray-100 min-h-screen gap-8">
 
-      <div className="flex flex-col bg-white ml-10 mt-5 relative">
+      <div className="flex flex-col bg-white ml-10 mt-5 relative pb-20">
 
 
 
@@ -443,10 +443,11 @@ const ResumeBuilder = () => {
           <button
             type="button"
             onClick={goToEnd}
-            className="absolute right-0 bottom-0 mt-6 w-31 h-10 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition"
+            className="absolute bottom-6 right-6 w-32 h-10 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition"
           >
             Go to End
           </button>
+
 
 
 
