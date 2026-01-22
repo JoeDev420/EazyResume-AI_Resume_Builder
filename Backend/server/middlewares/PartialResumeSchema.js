@@ -162,9 +162,9 @@ export const EducationItemSchema = Joi.object({
     degree: Joi.string()
         .min(2)
         .max(50)
-        .trim()
         .pattern(/^[A-Za-z0-9\s.'()-]+$/)
         .allow("")
+        .trim()
         .messages({
             "string.pattern.base": "Degree format is invalid",
             "string.min": "Degree is too short",
