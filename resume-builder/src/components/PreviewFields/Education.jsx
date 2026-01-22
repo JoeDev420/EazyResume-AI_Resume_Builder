@@ -1,7 +1,7 @@
 import React from "react";
 import DateFormatter from "../DateFormatter";
 import { Pencil, Trash2 } from "lucide-react";
-import { useSearchParams, useLocation } from "react-router-dom"; // Add useLocation
+import { useSearchParams, useLocation } from "react-router-dom";
 import { scrollToTop } from "../../utils/scrollToTop";
 
 const Education = ({
@@ -12,8 +12,8 @@ const Education = ({
   setDeletionIndex
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const location = useLocation(); // Add this
-  const isViewMode = location.pathname.startsWith("/view"); // Add this
+  const location = useLocation();
+  const isViewMode = location.pathname.startsWith("/view");
 
   const education = formData.education?.length
     ? formData.education
@@ -28,80 +28,78 @@ const Education = ({
       ];
 
   return (
-    <section className="mb-4 wrap-break-word">
+    <section className="mb-4 break-words">
       <h2 className="text-sm font-semibold tracking-wide mb-1">
         EDUCATION
       </h2>
 
       {education.map((edu, i) => (
         <div key={i} className="mb-3 pl-3">
-          {/* DEGREE ROW */}
-          <div className="flex justify-between items-start gap-4">
-            <div className="flex items-center gap-2 flex-wrap">
+          {/* DEGREE + ACTIONS */}
+          <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="text-md font-medium text-gray-900">
                 {edu.degree}
                 {edu.field && ` — ${edu.field}`}
               </span>
 
-              {/* EDIT - Hide in view mode */}
-              {!isViewMode && ( // Add this condition
-                <button
-                  onClick={() => {
-                    setDraftEducation(edu);
-                    setResumeStep(3);
-                    setEditingIndex(i);
-                    setDeletionIndex(null);
+              {!isViewMode && (
+                <>
+                  <button
+                    onClick={() => {
+                      setDraftEducation(edu);
+                      setResumeStep(3);
+                      setEditingIndex(i);
+                      setDeletionIndex(null);
 
-                    setSearchParams((params) => {
-                      const p = new URLSearchParams(params);
-                      p.set("resumeStep", 3);
-                      return p;
-                    });
+                      setSearchParams((params) => {
+                        const p = new URLSearchParams(params);
+                        p.set("resumeStep", 3);
+                        return p;
+                      });
 
-                    scrollToTop();
-                  }}
-                  className="text-red-400 hover:text-red-500"
-                  aria-label="Edit Education"
-                >
-                  <Pencil className="size-4 hover:scale-105" />
-                </button>
-              )}
+                      scrollToTop();
+                    }}
+                    className="text-red-400 hover:text-red-500"
+                  >
+                    <Pencil className="size-4 hover:scale-105" />
+                  </button>
 
-              {/* DELETE - Hide in view mode */}
-              {!isViewMode && ( // Add this condition
-                <button
-                  onClick={() => {
-                    setDraftEducation(edu);
-                    setResumeStep(3);
-                    setDeletionIndex(i);
-                    setEditingIndex(null);
+                  <button
+                    onClick={() => {
+                      setDraftEducation(edu);
+                      setResumeStep(3);
+                      setDeletionIndex(i);
+                      setEditingIndex(null);
 
-                    setSearchParams((params) => {
-                      const p = new URLSearchParams(params);
-                      p.set("resumeStep", 3);
-                      return p;
-                    });
+                      setSearchParams((params) => {
+                        const p = new URLSearchParams(params);
+                        p.set("resumeStep", 3);
+                        return p;
+                      });
 
-                    scrollToTop();
-                  }}
-                  className={`${formData.education?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
-                  aria-label="Delete Education"
-                >
-                  <Trash2 className="size-4 hover:scale-105" />
-                </button>
+                      scrollToTop();
+                    }}
+                    className={`${formData.education?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
+                  >
+                    <Trash2 className="size-4 hover:scale-105" />
+                  </button>
+                </>
               )}
             </div>
 
             {/* DATE */}
-            <span className="text-sm text-gray-500 whitespace-nowrap">
+            <span className="text-xs sm:text-sm text-gray-500 whitespace-nowrap">
               <DateFormatter value={edu.graduationDate} />
             </span>
           </div>
 
           {/* INSTITUTE */}
-          <div className="text-sm italic text-gray-600">
-            {edu.institute}
-          </div>
+          {edu.institute && (
+            <div className="text-sm italic text-gray-600">
+              {edu.institute}
+            </div>
+          )}
 
           {/* CGPA */}
           {edu.cgpa && (

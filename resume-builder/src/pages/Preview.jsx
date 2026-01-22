@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
-import TemplateRenderer from '../components/templates/TemplateRender';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import API from '../components/AxiosConfig';
-import { useAuth } from '../components/AuthContext';
+import React, { useEffect, useState, useRef } from "react";
+import TemplateRenderer from "../components/templates/TemplateRender";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import API from "../components/AxiosConfig";
+import { useAuth } from "../components/AuthContext";
 
 const Preview = () => {
   const navigate = useNavigate();
@@ -12,10 +12,13 @@ const Preview = () => {
 
   const [formData, setFormData] = useState(null);
   const [searchParams] = useSearchParams();
-  const isPrint = searchParams.get("print") === "true"; // Hide buttons in print mode
+  const isPrint = searchParams.get("print") === "true";
 
-  const Download = async () => {  
-    window.open(`${import.meta.env.VITE_API_URL}/pdf/resume/${resumeSlug}`, "_blank");
+  const Download = () => {
+    window.open(
+      `${import.meta.env.VITE_API_URL}/pdf/resume/${resumeSlug}`,
+      "_blank"
+    );
   };
 
   const ShareHandler = async () => {
@@ -35,23 +38,24 @@ const Preview = () => {
 
   const changePublic = async () => {
     try {
-      const response = await API.put("/resume/update", {
+      await API.put("/resume/update", {
         resumeStep: 9,
         resumeId: formData._id,
         public: !formData.public
       });
 
-      setFormData(prev => ({ ...prev, public: !prev.public }));
+      setFormData((prev) => ({ ...prev, public: !prev.public }));
     } catch (error) {
       console.log(error.message);
     }
   };
 
-
   useEffect(() => {
     const getResumeData = async () => {
       try {
-        const response = await API.get(`/resume/ResumePreview/${resumeSlug}`);
+        const response = await API.get(
+          `/resume/ResumePreview/${resumeSlug}`
+        );
         if (response.data.resume) {
           setFormData(response.data.resume);
         }
@@ -63,49 +67,71 @@ const Preview = () => {
     getResumeData();
   }, [resumeSlug]);
 
-
-  if (!formData) return <div className="text-center py-20">Resume Not Public</div>;
+  if (!formData)
+    return <div className="text-center py-20">Resume Not Public</div>;
 
   return (
-  <div className="Preview min-h-screen flex flex-col justify-center items-center bg-gray-100 px-6 py-4">
-
-    {!isPrint && (
-      <div className="flex justify-between items-center mb-6 w-full max-w-4xl">
-        <button onClick={() => navigate(`/resumes`)} className="text-blue-500 font-medium">
-          View All Resumes
-        </button>
-
-        <div className="flex gap-3">
-          <button className="px-4 py-2 bg-purple-300 rounded-2xl" onClick={Download}>
-            Download
+    <div className="min-h-screen bg-gray-100 px-3 sm:px-6 py-4 flex flex-col items-center">
+      {/* ACTION BAR */}
+      {!isPrint && (
+        <div className="w-full max-w-4xl mb-6 flex flex-col sm:flex-row sm:justify-between gap-3">
+          <button
+            onClick={() => navigate(`/resumes`)}
+            className="text-blue-500 font-medium text-sm sm:text-base"
+          >
+            View All Resumes
           </button>
 
-          <button className="px-4 py-2 bg-blue-300 rounded-2xl" onClick={ShareHandler}>
-            Share
-          </button>
-
-          {user?._id === formData.userId && (
+          <div className="flex flex-wrap gap-2">
             <button
-              className={`px-4 py-2 rounded-2xl ${formData.public ? "bg-green-300" : "bg-red-500"}`}
-              onClick={changePublic}
+              className="px-4 py-2 bg-purple-300 rounded-2xl text-sm"
+              onClick={Download}
             >
-              {formData.public ? "Public" : "Private"}
+              Download
             </button>
-          )}
+
+            <button
+              className="px-4 py-2 bg-blue-300 rounded-2xl text-sm"
+              onClick={ShareHandler}
+            >
+              Share
+            </button>
+
+            {user?._id === formData.userId && (
+              <button
+                className={`px-4 py-2 rounded-2xl text-sm ${
+                  formData.public ? "bg-green-300" : "bg-red-400"
+                }`}
+                onClick={changePublic}
+              >
+                {formData.public ? "Public" : "Private"}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* RESUME PREVIEW */}
+      <div
+        ref={ResumeRef}
+        className="
+          bg-white shadow-lg
+          w-full max-w-4xl
+          flex justify-center
+          overflow-hidden
+        "
+      >
+        {/* MOBILE SCALE WRAPPER */}
+        <div className="origin-top scale-[0.85] sm:scale-100">
+          <TemplateRenderer
+            templateId={formData.templateId}
+            formData={formData}
+            sectionVisibility={formData.sectionVisibility}
+          />
         </div>
       </div>
-    )}
-
-    <div ref={ResumeRef} className="resumeOnly bg-white shadow-lg w-full max-w-4xl flex items-center justify-center">
-      <TemplateRenderer
-        templateId={formData.templateId}
-        formData={formData}
-        sectionVisibility={formData.sectionVisibility}
-      />
     </div>
-  </div>
-);
-
+  );
 };
 
 export default Preview;

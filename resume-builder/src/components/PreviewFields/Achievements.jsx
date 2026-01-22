@@ -1,6 +1,6 @@
 import { Pencil, Trash2 } from "lucide-react";
 import { useSearchParams, useLocation } from "react-router-dom";
-import { scrollToTop } from "../../utils/scrollToTop.js";
+import { scrollToTop } from "../../utils/scrollToTop";
 
 const Achievements = ({
   formData,
@@ -11,8 +11,6 @@ const Achievements = ({
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
-
-  // ✅ SAME AS EDUCATION
   const isViewMode = location.pathname.startsWith("/view");
 
   const achievements = formData.achievements?.length
@@ -27,66 +25,64 @@ const Achievements = ({
       ];
 
   return (
-    <section className="mb-4 wrap-break-word">
+    <section className="mb-4 break-words">
       <h2 className="text-sm font-semibold tracking-wide mb-1">
         AWARDS & ACHIEVEMENTS
       </h2>
 
       {achievements.map((item, i) => (
-        <div key={i} className="mb-3 pl-3 flex flex-col">
-          {/* TITLE ROW */}
-          <div className="flex items-center gap-2">
-            <span className="text-md font-medium text-gray-900">
-              {item.title}
-            </span>
+        <div key={i} className="mb-3 pl-3">
+          {/* TITLE + ACTIONS */}
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-md font-medium text-gray-900">
+                {item.title}
+              </span>
 
-            {/* EDIT – hidden in view mode */}
-            {!isViewMode && (
-              <button
-                onClick={() => {
-                  setDraftAchievement(item);
-                  setEditingIndex(i);
-                  setDeletionIndex(null);
-                  setResumeStep(7);
+              {!isViewMode && (
+                <>
+                  <button
+                    onClick={() => {
+                      setDraftAchievement(item);
+                      setEditingIndex(i);
+                      setDeletionIndex(null);
+                      setResumeStep(7);
 
-                  setSearchParams((params) => {
-                    const p = new URLSearchParams(params);
-                    p.set("resumeStep", 7);
-                    return p;
-                  });
+                      setSearchParams((params) => {
+                        const p = new URLSearchParams(params);
+                        p.set("resumeStep", 7);
+                        return p;
+                      });
 
-                  scrollToTop();
-                }}
-                className="text-red-400 hover:text-red-500"
-                aria-label="Edit Achievement"
-              >
-                <Pencil className="size-4 hover:scale-105" />
-              </button>
-            )}
+                      scrollToTop();
+                    }}
+                    className="text-red-400 hover:text-red-500"
+                  >
+                    <Pencil className="size-4 hover:scale-105" />
+                  </button>
 
-            {/* DELETE – hidden in view mode */}
-            {!isViewMode && (
-              <button
-                onClick={() => {
-                  setDraftAchievement(item);
-                  setResumeStep(7);
-                  setDeletionIndex(i);
-                  setEditingIndex(null);
+                  <button
+                    onClick={() => {
+                      setDraftAchievement(item);
+                      setResumeStep(7);
+                      setDeletionIndex(i);
+                      setEditingIndex(null);
 
-                  setSearchParams((params) => {
-                    const p = new URLSearchParams(params);
-                    p.set("resumeStep", 7);
-                    return p;
-                  });
+                      setSearchParams((params) => {
+                        const p = new URLSearchParams(params);
+                        p.set("resumeStep", 7);
+                        return p;
+                      });
 
-                  scrollToTop();
-                }}
-                className={`${formData.achievements?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
-                aria-label="Delete Achievement"
-              >
-                <Trash2 className="size-4 hover:scale-105" />
-              </button>
-            )}
+                      scrollToTop();
+                    }}
+                    className={`${formData.achievements?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
+                  >
+                    <Trash2 className="size-4 hover:scale-105" />
+                  </button>
+                </>
+              )}
+            </div>
           </div>
 
           {/* ISSUER */}
@@ -109,3 +105,4 @@ const Achievements = ({
 };
 
 export default Achievements;
+  

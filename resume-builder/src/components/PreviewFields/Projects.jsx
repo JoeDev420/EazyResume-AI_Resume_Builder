@@ -11,8 +11,6 @@ const Projects = ({
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
-
-  // ✅ SAME LOGIC AS EDUCATION / ACHIEVEMENTS
   const isViewMode = location.pathname.startsWith("/view");
 
   const projects = formData.projects?.length
@@ -28,79 +26,76 @@ const Projects = ({
       ];
 
   return (
-    <section className="mb-4 wrap-break-word">
+    <section className="mb-4 break-words">
       <h2 className="text-sm font-semibold tracking-wide mb-1">
         PROJECTS
       </h2>
 
       {projects.map((project, i) => (
         <div key={i} className="mb-3 pl-3">
-          {/* TITLE ROW */}
-          <div className="flex items-center gap-2">
-            <span className="text-md font-medium text-gray-900">
-              {project.title}
-            </span>
+          {/* TITLE + ACTIONS */}
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-md font-medium text-gray-900">
+                {project.title}
+              </span>
 
-            {/* LIVE LINK – visible everywhere */}
-            {project.liveLink && (
-              <a
-                href={project.liveLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-700 inline-flex items-center gap-1 text-xs"
-              >
-                <ExternalLink size={12} />
-                <span>Live</span>
-              </a>
-            )}
+              {project.liveLink && (
+                <a
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-blue-600 hover:underline break-all"
+                >
+                  <ExternalLink size={12} />
+                  Live
+                </a>
+              )}
 
-            {/* EDIT – hidden in view mode */}
-            {!isViewMode && (
-              <button
-                onClick={() => {
-                  setDraftProject(project);
-                  setResumeStep(6);
-                  setDeletionIndex(null);
-                  setEditingIndex(i);
+              {!isViewMode && (
+                <>
+                  <button
+                    onClick={() => {
+                      setDraftProject(project);
+                      setResumeStep(6);
+                      setDeletionIndex(null);
+                      setEditingIndex(i);
 
-                  setSearchParams((params) => {
-                    const p = new URLSearchParams(params);
-                    p.set("resumeStep", 6);
-                    return p;
-                  });
+                      setSearchParams((params) => {
+                        const p = new URLSearchParams(params);
+                        p.set("resumeStep", 6);
+                        return p;
+                      });
 
-                  scrollToTop();
-                }}
-                className="text-red-400 hover:text-red-500"
-                aria-label="Edit Project"
-              >
-                <Pencil className="size-4 hover:scale-105" />
-              </button>
-            )}
+                      scrollToTop();
+                    }}
+                    className="text-red-400 hover:text-red-500"
+                  >
+                    <Pencil className="size-4 hover:scale-105" />
+                  </button>
 
-            {/* DELETE – hidden in view mode */}
-            {!isViewMode && (
-              <button
-                onClick={() => {
-                  setDraftProject(project);
-                  setResumeStep(6);
-                  setDeletionIndex(i);
-                  setEditingIndex(null);
+                  <button
+                    onClick={() => {
+                      setDraftProject(project);
+                      setResumeStep(6);
+                      setDeletionIndex(i);
+                      setEditingIndex(null);
 
-                  setSearchParams((params) => {
-                    const p = new URLSearchParams(params);
-                    p.set("resumeStep", 6);
-                    return p;
-                  });
+                      setSearchParams((params) => {
+                        const p = new URLSearchParams(params);
+                        p.set("resumeStep", 6);
+                        return p;
+                      });
 
-                  scrollToTop();
-                }}
-                className={`${formData.projects?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
-                aria-label="Delete Project"
-              >
-                <Trash2 className="size-4 hover:scale-105" />
-              </button>
-            )}
+                      scrollToTop();
+                    }}
+                    className={`${formData.projects?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
+                  >
+                    <Trash2 className="size-4 hover:scale-105" />
+                  </button>
+                </>
+              )}
+            </div>
           </div>
 
           {/* TYPE / TECH */}
