@@ -131,7 +131,7 @@ const TemplateTwo = ({
                     .map((id) => {
                       const Section = SECTION_MAP[id];
                       return (
-                        <div key={id} className="pb-1 border-b last:border-none">
+                        <div key={id} className=" last:border-none">
                           <Section formData={formData} />
                         </div>
                       );
