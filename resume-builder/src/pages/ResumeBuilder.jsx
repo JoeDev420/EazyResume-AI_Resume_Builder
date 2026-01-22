@@ -443,7 +443,7 @@ const ResumeBuilder = () => {
           <button
             type="button"
             onClick={goToEnd}
-            className="absolute bottom-45 right-6 w-25 h-10  text-white-700 bg-blue-500 rounded"
+            className="absolute bottom-45 right-6 w-25 h-10  text-white bg-blue-500 rounded"
           >
             Go to End
           </button>
