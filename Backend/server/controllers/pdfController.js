@@ -1,4 +1,4 @@
-import Resume from "../models/Resume.js";
+import Resume from "../models/Resume";
 import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 
