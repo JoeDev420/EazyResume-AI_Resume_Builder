@@ -208,7 +208,7 @@ const FormFooter = ({ onGoToEnd }) => {
     <div className="flex justify-end mt-6">
       <button
         type="button"
-        onClick={onGoToEnd}
+        onClick={goToEnd}
         className="w-25 h-10 border  text-white bg-blue-500 rounded transition"
       >
         Go to End
