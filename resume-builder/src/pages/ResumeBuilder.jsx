@@ -209,7 +209,7 @@ const ResumeBuilder = () => {
 
     <div className="grid grid-cols-[3fr_4fr_1fr] bg-gray-100 min-h-screen gap-8">
 
-      <div className="flex flex-col bg-white ml-10 mt-5 relative pb-20">
+      <div className="flex flex-col bg-white ml-10 mt-5 relative">
 
 
 
