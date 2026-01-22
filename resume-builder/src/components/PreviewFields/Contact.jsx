@@ -29,7 +29,7 @@ const Contact = ({formData,textColor}) => {
                                     });
                                     scrollToTop();
                                   }}
-                                  className="absolute top-0 -right-4 bg-white rounded-full p-1 shadow"
+                                  className="absolute top-0 -right-2 bg-white rounded-full p-1 shadow"
                                 >
                                   <Pencil className="w-4 h-4 text-blue-600 hover:text-blue-700" />
                  </button>
