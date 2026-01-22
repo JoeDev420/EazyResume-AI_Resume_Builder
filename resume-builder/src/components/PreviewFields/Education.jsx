@@ -4,9 +4,14 @@ import { Pencil, Trash2 } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { scrollToTop } from "../../utils/scrollToTop";
 
-const Education = ({ formData,setDraftEducation,setResumeStep,setEditingIndex,setDeletionIndex }) => {
-
-  const [searchParams,setSearchParams] = useSearchParams()
+const Education = ({
+  formData,
+  setDraftEducation,
+  setResumeStep,
+  setEditingIndex,
+  setDeletionIndex
+}) => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const education = formData.education?.length
     ? formData.education
@@ -27,81 +32,77 @@ const Education = ({ formData,setDraftEducation,setResumeStep,setEditingIndex,se
       </h2>
 
       {education.map((edu, i) => (
-
         <div key={i} className="mb-3 pl-3">
-          
+          {/* DEGREE ROW */}
+          <div className="flex justify-between items-start gap-4">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-md font-medium text-gray-900">
+                {edu.degree}
+                {edu.field && ` — ${edu.field}`}
+              </span>
 
-          <div className="flex justify-between items-start text-sm font-medium gap-4">
-            <span className="flex-1 inline-flex items-center gap-1 text-md">
-              {edu.degree}
-              {edu.field && ` — ${edu.field}`}
-
+              {/* EDIT */}
               <button
-                onClick={(e) => {
+                onClick={() => {
                   setDraftEducation(edu);
                   setResumeStep(3);
-                  setEditingIndex(i)
-                  setDeletionIndex(null)
+                  setEditingIndex(i);
+                  setDeletionIndex(null);
 
-                   setSearchParams((params) => {
-                            const p = new URLSearchParams(params);
-                            p.set("resumeStep",3);
-                            return p;
-                            })
+                  setSearchParams((params) => {
+                    const p = new URLSearchParams(params);
+                    p.set("resumeStep", 3);
+                    return p;
+                  });
 
-                    scrollToTop()
-
+                  scrollToTop();
                 }}
-                className="text-red-400 hover:text-red-500 hover:scale-105"
-                aria-label="Edit education"
+                className="text-red-400 hover:text-red-500"
+                aria-label="Edit Education"
               >
                 <Pencil className="size-4 hover:scale-105" />
               </button>
 
+              {/* DELETE */}
               <button
-                onClick={(e) => {
+                onClick={() => {
                   setDraftEducation(edu);
                   setResumeStep(3);
-                  setDeletionIndex(i)
-                  setEditingIndex(null)
+                  setDeletionIndex(i);
+                  setEditingIndex(null);
 
-                   setSearchParams((params) => {
-                            const p = new URLSearchParams(params);
-                            p.set("resumeStep",3);
-                            return p;
-                            })
+                  setSearchParams((params) => {
+                    const p = new URLSearchParams(params);
+                    p.set("resumeStep", 3);
+                    return p;
+                  });
 
-                scrollToTop()
-                            }
-                
-              }
-
-                className={`${formData.education?.length?"text-red-400 hover:text-red-500":"hidden"}`}
-                aria-label="Edit education"
+                  scrollToTop();
+                }}
+                className={`${formData.education?.length ? "text-red-400 hover:text-red-500" : "hidden"}`}
+                aria-label="Delete Education"
               >
                 <Trash2 className="size-4 hover:scale-105" />
               </button>
-            </span>
+            </div>
 
-            <span className="text-gray-500 whitespace-nowrap text-right">
+            {/* DATE */}
+            <span className="text-sm text-gray-500 whitespace-nowrap">
               <DateFormatter value={edu.graduationDate} />
             </span>
           </div>
 
+          {/* INSTITUTE */}
           <div className="text-sm italic text-gray-600">
             {edu.institute}
           </div>
 
+          {/* CGPA */}
           {edu.cgpa && (
             <div className="text-sm text-gray-600">
               CGPA: {edu.cgpa}
             </div>
           )}
-
-          {/*add pencil icon to edit this entry in draft education state. clicking on it re-enters the data in
-          draft education state */}
-
-
         </div>
       ))}
     </section>
