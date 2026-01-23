@@ -35,6 +35,8 @@ const TemplateTwo = ({
 
   const location = useLocation();
   const { sectionOrder } = formData;
+  
+  const isViewMode = location.pathname.startsWith("/view");
 
   const {resumeId} = useParams()
 
@@ -50,7 +52,7 @@ const TemplateTwo = ({
       <div className="form-animate w-[750px] min-h-[700px] flex justify-center bg-white ">
         <div className="max-w-[750px] min-h-[500px] w-full px-6 py-4 text-gray-800">
 
-          <div className={`flex flex-col ${resumeStep===1 ? "sticky top-0" : ""} md:flex-row gap-4`}>
+          <div className={`flex flex-col ${!isViewMode && resumeStep===1 ? "sticky top-0" : ""} md:flex-row gap-4`}>
 
             <aside className="w-full md:w-[180px] shrink-0 flex flex-col items-center gap-4">
 
@@ -93,7 +95,7 @@ const TemplateTwo = ({
 
               <div className="h-px bg-gray-200 my-2" />
 
-              {!location.pathname.startsWith('/view') ? (
+              {!isViewMode ? (
                 <DndContext
                   collisionDetection={closestCenter}
                   onDragEnd={(event) => handleDragEnd(event, sectionOrder, resumeStep, formData, setFormData)}
@@ -151,23 +153,21 @@ const TemplateTwo = ({
       </div>
 
 
-      {!isViewMode  && ( <div className='saveAll absolute top-2 right-4 z-10 '>
+      {!isViewMode && ( 
+        <div className='saveAll absolute top-2 right-4 z-10 '>
           <button
-              disabled={!(formData.change)}
-              onClick={() => saveAllToDb(setPreviewLoading,formData,setFormData,resumeId)
-
-                
-
-              }
-              className={`px-2 py-1 rounded ${
-                !(formData.change)
-                  ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-green-500 text-white"
-              }`}
-            >
-              Save Changes
-            </button>
-        </div>)}
+            disabled={!(formData.change)}
+            onClick={() => saveAllToDb(setPreviewLoading,formData,setFormData,resumeId)}
+            className={`px-2 py-1 rounded ${
+              !(formData.change)
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-green-500 text-white"
+            }`}
+          >
+            Save Changes
+          </button>
+        </div>
+      )}
 
     </div>
   );

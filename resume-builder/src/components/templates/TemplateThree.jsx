@@ -38,6 +38,8 @@ const TemplateThree = ({
 
   const location = useLocation();
   const { sectionOrder } = formData;
+  
+  const isViewMode = location.pathname.startsWith("/view");
 
   const {resumeId} = useParams()
 
@@ -51,7 +53,7 @@ const TemplateThree = ({
       )}
 
       <div className="form-animate w-[750px] min-h-[700px] flex justify-center bg-white">
-        <div className={`max-w-[750px] w-full text-gray-800 ${resumeStep === 1 ? "sticky top-0" : ""}`}>
+        <div className={`max-w-[750px] w-full text-gray-800 ${!isViewMode && resumeStep === 1 ? "sticky top-0" : ""}`}>
 
           <div className="bg-slate-800 text-white px-6 py-4 flex items-center gap-5 justify-center relative">
             
@@ -83,7 +85,7 @@ const TemplateThree = ({
           </div>
 
           <div className="px-6 py-4">
-            {!location.pathname.startsWith("/view") ? (
+            {!isViewMode ? (
               <DndContext
                 collisionDetection={closestCenter}
                 onDragEnd={(event) => { handleDragEnd(event, sectionOrder, resumeStep, formData, setFormData) }}
@@ -137,23 +139,21 @@ const TemplateThree = ({
         </div>
       </div>
 
-    {!isViewMode  && ( <div className='saveAll absolute top-2 right-4 z-10 '>
+      {!isViewMode && ( 
+        <div className='saveAll absolute top-2 right-4 z-10 '>
           <button
-              disabled={!(formData.change)}
-              onClick={() => saveAllToDb(setPreviewLoading,formData,setFormData,resumeId)
-
-                
-
-              }
-              className={`px-2 py-1 rounded ${
-                !(formData.change)
-                  ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-green-500 text-white"
-              }`}
-            >
-              Save Changes
-            </button>
-        </div>)}
+            disabled={!(formData.change)}
+            onClick={() => saveAllToDb(setPreviewLoading,formData,setFormData,resumeId)}
+            className={`px-2 py-1 rounded ${
+              !(formData.change)
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-green-500 text-white"
+            }`}
+          >
+            Save Changes
+          </button>
+        </div>
+      )}
 
     </div>
   );
