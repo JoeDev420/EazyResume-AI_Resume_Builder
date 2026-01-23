@@ -18,7 +18,7 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
     <>
     
       <h1
-        className={`relative text-[18px] sm:text-[21px] font-semibold text-center break-words ${
+        className={`relative inline-block text-[18px] sm:text-[21px] font-semibold text-center break-words ${
           textColor || "text-gray-700"
         }`}
       >

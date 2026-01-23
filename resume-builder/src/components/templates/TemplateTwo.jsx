@@ -11,7 +11,6 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { handleDragEnd } from "../../utils/handleDragEnd";
 import { SECTION_MAP } from "../../utils/SectionMap";
 
-import { Pencil } from "lucide-react";
 import { scrollToTop } from "../../utils/scrollToTop";
 
 const TemplateTwo = ({

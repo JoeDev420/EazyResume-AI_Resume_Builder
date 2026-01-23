@@ -153,7 +153,7 @@ useEffect(() => {
 
         <hr/>
 
-        <div className='saveAll absolute -top-28 -right-205 z-10 '>
+        <div className='saveAll absolute -top-28 -right-190 z-10 '>
           <button
               disabled={!(formData.change)}
               onClick={() => saveAllToDb()
