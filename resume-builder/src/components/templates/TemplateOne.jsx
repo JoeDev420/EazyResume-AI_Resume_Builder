@@ -149,7 +149,7 @@ const TemplateOne = ({
         </div>
       </div>
 
-    <div className='saveAll absolute top-2 right-4 z-10 '>
+   {!isViewMode  && ( <div className='saveAll absolute top-2 right-4 z-10 '>
           <button
               disabled={!(formData.change)}
               onClick={() => saveAllToDb(setPreviewLoading,formData,setFormData,resumeId)
@@ -165,7 +165,7 @@ const TemplateOne = ({
             >
               Save Changes
             </button>
-        </div>
+        </div>)}
 
 
 
