@@ -16,7 +16,7 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
 
   return (
     <>
-      {/* NAME */}
+    
       <h1
         className={`relative text-[18px] sm:text-[21px] font-semibold text-center break-words ${
           textColor || "text-gray-700"
@@ -42,12 +42,12 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
         )}
       </h1>
 
-      {/* PROFESSION */}
+      
       <h2 className="text-base sm:text-lg font-semibold text-center break-words text-gray-800">
         {formData.profession}
       </h2>
 
-      {/* CONTACT DETAILS */}
+      
       <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-2 text-xs sm:text-sm text-gray-600 px-2">
         <span className="flex items-center gap-1 break-all">
           <Mail size={12} />
@@ -77,7 +77,7 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
         )}
       </div>
 
-      {/* WEBSITES */}
+  
       {formData.website?.length > 0 && (
         <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-x-4 gap-y-1 mt-2 text-xs sm:text-sm">
           {formData.website.map((url, i) => (

@@ -32,7 +32,7 @@ const Achievements = ({
 
       {achievements.map((item, i) => (
         <div key={i} className="mb-3 pl-3">
-          {/* TITLE + ACTIONS */}
+        
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-md font-medium text-gray-900">
@@ -85,14 +85,14 @@ const Achievements = ({
             </div>
           </div>
 
-          {/* ISSUER */}
+  
           {item.issuer && (
             <div className="text-sm italic text-gray-600">
               {item.issuer}
             </div>
           )}
 
-          {/* DESCRIPTION */}
+
           {item.description && (
             <p className="text-sm text-gray-700 mt-1 leading-relaxed">
               {item.description}
@@ -105,4 +105,3 @@ const Achievements = ({
 };
 
 export default Achievements;
-  

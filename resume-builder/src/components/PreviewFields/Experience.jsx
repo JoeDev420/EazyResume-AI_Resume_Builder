@@ -36,7 +36,7 @@ const Experience = ({
 
       {experiences.map((job, i) => (
         <div key={i} className="mb-3 pl-3">
-          {/* ROLE + ACTIONS */}
+        
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-md font-medium text-gray-900">
@@ -94,7 +94,7 @@ const Experience = ({
               )}
             </div>
 
-            {/* DATE */}
+        
             <span className="text-xs sm:text-sm text-gray-500 whitespace-nowrap">
               <DateFormatter value={job.startDate} />
               {" – "}
@@ -102,14 +102,14 @@ const Experience = ({
             </span>
           </div>
 
-          {/* COMPANY */}
+      
           {job.company && (
             <div className="text-sm italic text-gray-600">
               {job.company}
             </div>
           )}
 
-          {/* DETAILS */}
+      
           {job.details && (
             <p className="text-sm mt-1 text-gray-700 leading-relaxed">
               {job.details}

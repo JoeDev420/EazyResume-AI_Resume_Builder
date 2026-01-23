@@ -32,14 +32,12 @@ const TemplateOne = ({
 
   return (
     <div className="relative font-[Inter] mt-4 sm:mt-5">
-      {/* LOADING OVERLAY */}
       {previewLoading && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/70">
           <LoadingSpinner color="black" />
         </div>
       )}
 
-      {/* RESUME WRAPPER */}
       <div
         className={`
           bg-white
@@ -51,9 +49,7 @@ const TemplateOne = ({
           ${!isViewMode && resumeStep === 1 ? "sm:sticky sm:top-0" : ""}
         `}
       >
-        {/* INNER CONTENT */}
         <div className="w-full text-gray-800 px-4 sm:px-6 py-4">
-          {/* HEADER */}
           <div className="flex flex-col items-center gap-1 pb-2">
             {sectionVisibility.profilePic && (
               <div className="relative">
@@ -82,10 +78,8 @@ const TemplateOne = ({
             <Contact formData={formData} setResumeStep={setResumeStep} />
           </div>
 
-          {/* DIVIDER */}
           <div className="h-px bg-gray-200 my-2" />
 
-          {/* SECTIONS */}
           {!isViewMode ? (
             <DndContext
               collisionDetection={closestCenter}

@@ -72,7 +72,7 @@ const Preview = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 px-3 sm:px-6 py-4 flex flex-col items-center">
-      {/* ACTION BAR */}
+      
       {!isPrint && (
         <div className="w-full max-w-4xl mb-6 flex flex-col sm:flex-row sm:justify-between gap-3">
           <button
@@ -111,7 +111,7 @@ const Preview = () => {
         </div>
       )}
 
-      {/* RESUME PREVIEW */}
+
       <div
         ref={ResumeRef}
         className="
@@ -121,7 +121,7 @@ const Preview = () => {
           overflow-hidden
         "
       >
-        {/* MOBILE SCALE WRAPPER */}
+
         <div className="origin-top scale-[0.85] sm:scale-100">
           <TemplateRenderer
             templateId={formData.templateId}

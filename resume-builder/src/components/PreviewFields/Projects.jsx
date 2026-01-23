@@ -33,7 +33,7 @@ const Projects = ({
 
       {projects.map((project, i) => (
         <div key={i} className="mb-3 pl-3">
-          {/* TITLE + ACTIONS */}
+      
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-md font-medium text-gray-900">
@@ -98,14 +98,13 @@ const Projects = ({
             </div>
           </div>
 
-          {/* TYPE / TECH */}
+  
           {project.type && (
             <div className="text-sm italic text-gray-600">
               {project.type}
             </div>
           )}
 
-          {/* DESCRIPTION */}
           {project.description && (
             <p className="text-sm mt-1 text-gray-700 leading-relaxed">
               {project.description}

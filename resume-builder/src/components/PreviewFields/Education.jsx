@@ -35,7 +35,7 @@ const Education = ({
 
       {education.map((edu, i) => (
         <div key={i} className="mb-3 pl-3">
-          {/* DEGREE + ACTIONS */}
+        
           <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-md font-medium text-gray-900">
@@ -88,20 +88,20 @@ const Education = ({
               )}
             </div>
 
-            {/* DATE */}
+    
             <span className="text-xs sm:text-sm text-gray-500 whitespace-nowrap">
               <DateFormatter value={edu.graduationDate} />
             </span>
           </div>
 
-          {/* INSTITUTE */}
+      
           {edu.institute && (
             <div className="text-sm italic text-gray-600">
               {edu.institute}
             </div>
           )}
 
-          {/* CGPA */}
+  
           {edu.cgpa && (
             <div className="text-sm text-gray-600">
               CGPA: {edu.cgpa}
