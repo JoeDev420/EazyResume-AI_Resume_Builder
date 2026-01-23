@@ -20,7 +20,7 @@ export const templates = [
 },
 ];
 
-const TemplateRenderer = ({ templateId, formData,setFormData,sectionVisibility,previewLoading,imageLoading,setDraftEducation,setResumeStep,setDraftExperience,setEditingIndex,setDraftProject,setDraftAchievement,setDeletionIndex,resumeStep}) => {
+const TemplateRenderer = ({ templateId, formData,setFormData,sectionVisibility,previewLoading,imageLoading,setDraftEducation,setResumeStep,setDraftExperience,setEditingIndex,setDraftProject,setDraftAchievement,setDeletionIndex,resumeStep,setPreviewLoading}) => {
 
   const SelectedTemplate =
     templates.find(t => t.id === templateId)?.component
@@ -28,7 +28,7 @@ const TemplateRenderer = ({ templateId, formData,setFormData,sectionVisibility,p
 
   return <SelectedTemplate formData={formData} setFormData={setFormData} sectionVisibility={sectionVisibility} previewLoading={previewLoading} imageLoading={imageLoading} setDraftEducation={setDraftEducation} resumeStep={resumeStep} setResumeStep={setResumeStep} 
           setDraftExperience={setDraftExperience} setEditingIndex={setEditingIndex} setDraftProject={setDraftProject} setDraftAchievement={setDraftAchievement}
-          setDeletionIndex={setDeletionIndex} />;
+          setDeletionIndex={setDeletionIndex} templateId={templateId} setPreviewLoading={setPreviewLoading}/>;
 };
 
 export default TemplateRenderer;

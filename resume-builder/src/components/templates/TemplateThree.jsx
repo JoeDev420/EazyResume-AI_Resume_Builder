@@ -11,9 +11,11 @@ import Contact from "../PreviewFields/Contact";
 import { SECTION_MAP } from "../../utils/SectionMap";
 
 import { handleDragEnd } from "../../utils/handleDragEnd";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { Pencil } from "lucide-react";
 import { scrollToTop } from "../../utils/scrollToTop";
+
+import saveAllToDb from "../../utils/saveAll";
 
 const TemplateThree = ({
   formData,
@@ -29,12 +31,15 @@ const TemplateThree = ({
   setEditingIndex,
   setDraftProject,
   setDraftAchievement,
-  setDeletionIndex
+  setDeletionIndex,
+  templateId,
+  setPreviewLoading
 }) => {
 
   const location = useLocation();
   const { sectionOrder } = formData;
-  const [searchParams, setSearchParams] = useSearchParams();
+
+  const {resumeId} = useParams()
 
   return (
     <div className="relative font-[Inter] mt-5">
@@ -73,7 +78,7 @@ const TemplateThree = ({
             )}
 
             <div>
-              <Contact formData={formData} textColor="text-gray-200" />
+              <Contact formData={formData} setResumeStep={setResumeStep} templateId={templateId} textColor="text-gray-200" />
             </div>
           </div>
 
@@ -105,6 +110,7 @@ const TemplateThree = ({
                                 setDraftProject={setDraftProject}
                                 setDraftAchievement={setDraftAchievement}
                                 setDeletionIndex={setDeletionIndex}
+                                templateId={templateId}
                               />
                             </div>
                           </SortableItem>
@@ -130,6 +136,24 @@ const TemplateThree = ({
           </div>
         </div>
       </div>
+
+    <div className='saveAll absolute top-2 right-4 z-10 '>
+          <button
+              disabled={!(formData.change)}
+              onClick={() => saveAllToDb(setPreviewLoading,formData,setFormData,resumeId)
+
+                
+
+              }
+              className={`px-2 py-1 rounded ${
+                !(formData.change)
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-green-500 text-white"
+              }`}
+            >
+              Save Changes
+            </button>
+        </div>
 
     </div>
   );

@@ -7,11 +7,12 @@ import LoadingSpinner from "../LoadingSpinner";
 import SortableItem from "../SortableItem";
 import Skills from "../PreviewFields/Skills";
 import Contact from "../PreviewFields/Contact";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { handleDragEnd } from "../../utils/handleDragEnd";
 import { SECTION_MAP } from "../../utils/SectionMap";
 
 import { scrollToTop } from "../../utils/scrollToTop";
+import saveAllToDb from "../../utils/saveAll";
 
 const TemplateTwo = ({
   formData,
@@ -27,12 +28,15 @@ const TemplateTwo = ({
   setEditingIndex,
   setDraftProject,
   setDraftAchievement,
-  setDeletionIndex
+  setDeletionIndex,
+  templateId,
+  setPreviewLoading
 }) => {
 
   const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
   const { sectionOrder } = formData;
+
+  const {resumeId} = useParams()
 
   return (
     <div className="relative font-[Inter] mt-5">
@@ -82,8 +86,9 @@ const TemplateTwo = ({
 
             <main className="flex flex-col flex-1 gap-1">
 
-              <div className="w-full text-center md:text-left pb-2">
-                <Contact formData={formData} />
+              <div className="text-center md:text-left pb-2">
+                
+                <Contact formData={formData} templateId={templateId} setResumeStep={setResumeStep} />
               </div>
 
               <div className="h-px bg-gray-200 my-2" />
@@ -115,6 +120,7 @@ const TemplateTwo = ({
                                   setDraftProject={setDraftProject}
                                   setDraftAchievement={setDraftAchievement}
                                   setDeletionIndex={setDeletionIndex}
+                                  templateId={templateId}
                                 />
                               </div>
                             </SortableItem>
@@ -143,6 +149,25 @@ const TemplateTwo = ({
           </div>
         </div>
       </div>
+
+
+      <div className='saveAll absolute top-2 right-4 z-10 '>
+          <button
+              disabled={!(formData.change)}
+              onClick={() => saveAllToDb(setPreviewLoading,formData,setFormData,resumeId)
+
+                
+
+              }
+              className={`px-2 py-1 rounded ${
+                !(formData.change)
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-green-500 text-white"
+              }`}
+            >
+              Save Changes
+            </button>
+        </div>
 
     </div>
   );

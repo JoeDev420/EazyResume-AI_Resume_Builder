@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 
 const Login = () => {
 
+
+
   //first obtain the state parameter from the URL. you'll either come to login or register and that will be the state's value
   //and that state will be set in this form. Thus you will see either the login or register page
 
@@ -60,10 +62,13 @@ const Login = () => {
 
         setLoading(true)
 
+
         const response = await API.post(`/user/${state}`,payload)
 
 
         if(response.data.token){
+
+          
 
 
         if(state!="login"){    

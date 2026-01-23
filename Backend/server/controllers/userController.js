@@ -87,9 +87,9 @@
 
         const user = await User.findOne( {email} )
 
+
         if(!user){
 
-         
 
             return res.status(400).json({ message:"Invalid username or password" })
 
@@ -109,6 +109,8 @@
 
         const token = generateToken(user._id)
 
+   
+
      
 
         user.password = undefined
@@ -121,7 +123,11 @@
             secure: true,       // MUST be true in production
             path: "/",
 
+        
+
         });
+
+
 
 
         return res.status(200).json({message:"User Verified",token})
@@ -129,6 +135,7 @@
         
     
     } catch (error) {
+
 
        return  res.status(400).json({message:error.message})
 
@@ -240,11 +247,18 @@
 
     export const verifyUser = async (req, res) => {
 
+
+
         try {
             const user = await User.findById(req.userId).select("-password");
 
             if (!user) {
+
+             
+
             return res.status(401).json({ success: false });
+
+            
             }
 
             return res.status(200).json({
@@ -252,8 +266,11 @@
             user
             });
         } catch (error) {
+
             return res.status(500).json({ success: false });
         }
+
+
     };
 
     export const ForgotPassword = async(req,res)=>{
@@ -262,7 +279,7 @@
             const transporter = nodemailer.createTransport({
                 host: 'smtp.gmail.com',
                 port: 587,
-                secure: false, // true for 465, false for 587
+                secure: true, // true for 465, false for 587
                 auth: {
                     user: process.env.EMAIL_USER, // your email                                         //add this
                     pass: process.env.EMAIL_PASS, // your email password or app password                //add this

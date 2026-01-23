@@ -12,6 +12,7 @@ const [searchParams,setSearchParams] = useSearchParams()
 
 
 
+
 const saveToDb = async()=>{  //next button save
   
   try {
@@ -62,43 +63,6 @@ const saveToDb = async()=>{  //next button save
 
 }
 
-const saveAllToDb = async()=>{
-  
-
-  try {
-
-
-      setPreviewLoading(true)
-
-      await new Promise(r => setTimeout(r, 400)); 
-
-      let response = null
-
-      response = await API.put("/resume/updateAll",{...formData,resumeId})        
-    
-      toast.success("Saved")
-
-      setPreviewLoading(false)
-
-      setFormData(prev=>({...prev,change:false}))
-      
-
-      
-  } 
-
-    catch (error) {
-
-    setPreviewLoading(false)
-        
-    toast.error(error.response.data.message)
-    
-
-
-    }
-
-
-
-    }
 
 useEffect(() => {
 }, [formData.change]);
@@ -109,7 +73,9 @@ useEffect(() => {
 
   return (
 
-      <div className='flex flex-col gap-5 relative'>
+    <div className='relative'> 
+
+      <div className='flex flex-col gap-5'>
 
         <div className="flex justify-between items-center pl-10 pr-10 pb-5">
 
@@ -153,25 +119,11 @@ useEffect(() => {
 
         <hr/>
 
-        <div className='saveAll absolute -top-28 -right-190 z-10 '>
-          <button
-              disabled={!(formData.change)}
-              onClick={() => saveAllToDb()
-
-                
-
-              }
-              className={`px-2 py-1 rounded ${
-                !(formData.change)
-                  ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-green-500 text-white"
-              }`}
-            >
-              Save Changes
-            </button>
-        </div>
 
       </div>
+
+
+    </div>
 
 
   )

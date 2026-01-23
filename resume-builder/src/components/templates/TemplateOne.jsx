@@ -1,4 +1,4 @@
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams,useParams } from "react-router-dom";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
@@ -8,11 +8,14 @@ import LoadingSpinner from "../LoadingSpinner";
 import { handleDragEnd } from "../../utils/handleDragEnd";
 import { SECTION_MAP } from "../../utils/SectionMap";
 
+import saveAllToDb from "../../utils/saveAll";
+
 const TemplateOne = ({
   formData,
   setFormData,
   sectionVisibility,
   previewLoading,
+  setPreviewLoading,
   imageLoading,
   setDraftEducation,
   resumeStep,
@@ -22,13 +25,18 @@ const TemplateOne = ({
   setEditingIndex,
   setDraftProject,
   setDraftAchievement,
-  setDeletionIndex
+  setDeletionIndex,
+  templateId
 }) => {
   const location = useLocation();
+
   const { sectionOrder } = formData;
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const isViewMode = location.pathname.startsWith("/view");
+
+
+
+  const {resumeId} = useParams()
 
   return (
     <div className="relative font-[Inter] mt-4 sm:mt-5">
@@ -75,7 +83,7 @@ const TemplateOne = ({
               </div>
             )}
 
-            <Contact formData={formData} setResumeStep={setResumeStep} />
+            <Contact formData={formData} setResumeStep={setResumeStep} templateId={templateId} />
           </div>
 
           <div className="h-px bg-gray-200 my-2" />
@@ -115,6 +123,7 @@ const TemplateOne = ({
                               setDraftProject={setDraftProject}
                               setDraftAchievement={setDraftAchievement}
                               setDeletionIndex={setDeletionIndex}
+                              templateId={templateId}
                             />
                           </div>
                         </SortableItem>
@@ -139,6 +148,27 @@ const TemplateOne = ({
           )}
         </div>
       </div>
+
+    <div className='saveAll absolute top-2 right-4 z-10 '>
+          <button
+              disabled={!(formData.change)}
+              onClick={() => saveAllToDb(setPreviewLoading,formData,setFormData,resumeId)
+
+                
+
+              }
+              className={`px-2 py-1 rounded ${
+                !(formData.change)
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-green-500 text-white"
+              }`}
+            >
+              Save Changes
+            </button>
+        </div>
+
+
+
     </div>
   );
 };

@@ -490,6 +490,7 @@ const FormFooter = ({ onGoToEnd }) => {
       <div className="px-4 flex justify-center items-start">
         <TemplateRenderer
           previewLoading={previewLoading}
+          setPreviewLoading={setPreviewLoading}
           templateId={templateId}
           formData={formData}
           setFormData={setFormData}

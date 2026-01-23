@@ -18,7 +18,8 @@ const PORT = process.env.PORT || 3000
 app.use(express.json()) 
 
 app.use(cors({
-  origin: "https://eazy-resume.vercel.app",
+  origin: ["https://eazy-resume.vercel.app",
+],
   credentials: true
 }))
 
