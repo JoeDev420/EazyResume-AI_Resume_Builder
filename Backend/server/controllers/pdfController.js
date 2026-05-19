@@ -59,9 +59,12 @@ export const downloadResumePDF = async (req, res) => {
       timeout: 30000
     });
 
-    // Disable CSS animations so layout is fully settled before measuring
+    // Kill animations and center the 750px template within the 794px PDF page
     await page.addStyleTag({
-      content: `*, *::before, *::after { animation: none !important; transition: none !important; }`
+      content: `
+        *, *::before, *::after { animation: none !important; transition: none !important; }
+        body { display: flex; justify-content: center; margin: 0; padding: 0; }
+      `
     });
 
     console.log("6. Generating PDF");
