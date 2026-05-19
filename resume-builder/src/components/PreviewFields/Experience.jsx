@@ -87,7 +87,7 @@ const Experience = ({
                 </span>
               )}
             </div>
-            <span className="text-[11px] text-gray-400 whitespace-nowrap shrink-0">
+            <span className="text-[11px] text-gray-500 whitespace-nowrap shrink-0">
               <DateFormatter value={job.startDate} />
               {" – "}
               {job.currentlyWorking ? "Present" : <DateFormatter value={job.endDate} />}
@@ -95,11 +95,11 @@ const Experience = ({
           </div>
 
           {job.company && (
-            <div className="text-[12px] text-gray-500 mt-0.5">{job.company}</div>
+            <div className="text-[12px] text-gray-600 mt-0.5">{job.company}</div>
           )}
 
           {job.details && (
-            <p className="text-[12px] leading-[1.65] text-gray-600 mt-1">{job.details}</p>
+            <p className="text-[12px] leading-[1.65] text-gray-700 mt-1">{job.details}</p>
           )}
         </div>
       ))}

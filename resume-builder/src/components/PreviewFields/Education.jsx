@@ -83,17 +83,17 @@ const Education = ({
                 </>
               )}
             </div>
-            <span className="text-[11px] text-gray-400 whitespace-nowrap shrink-0">
+            <span className="text-[11px] text-gray-500 whitespace-nowrap shrink-0">
               <DateFormatter value={edu.graduationDate} />
             </span>
           </div>
 
           {edu.institute && (
-            <div className="text-[12px] text-gray-500 mt-0.5">{edu.institute}</div>
+            <div className="text-[12px] text-gray-600 mt-0.5">{edu.institute}</div>
           )}
 
           {edu.cgpa && (
-            <div className="text-[11px] text-gray-400 mt-0.5">GPA: {edu.cgpa}</div>
+            <div className="text-[11px] text-gray-500 mt-0.5">GPA: {edu.cgpa}</div>
           )}
         </div>
       ))}

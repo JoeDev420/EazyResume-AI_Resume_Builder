@@ -34,7 +34,7 @@ const Summary = ({ formData, setResumeStep }) => {
         )}
       </div>
 
-      <p className={`text-[12px] leading-[1.65] ${professionalsummary ? "text-gray-600" : "text-gray-400"}`}>
+      <p className={`text-[12px] leading-[1.65] ${professionalsummary ? "text-gray-700" : "text-gray-500"}`}>
         {professionalsummary || "Briefly describe your experience, strengths, and career goals here."}
       </p>
     </section>

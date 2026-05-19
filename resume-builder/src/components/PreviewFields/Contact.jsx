@@ -38,7 +38,7 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
 
       {/* Profession */}
       {formData.profession && (
-        <p className={`text-[13px] font-medium mt-0.5 ${mutedText}`}>
+        <p className={`text-[15px] font-medium mt-0.5 ${mutedText}`}>
           {formData.profession}
         </p>
       )}

@@ -79,11 +79,11 @@ const Achievements = ({
           </div>
 
           {item.issuer && (
-            <div className="text-[12px] text-gray-500 mt-0.5">{item.issuer}</div>
+            <div className="text-[12px] text-gray-600 mt-0.5">{item.issuer}</div>
           )}
 
           {item.description && (
-            <p className="text-[12px] leading-[1.65] text-gray-600 mt-1">{item.description}</p>
+            <p className="text-[12px] leading-[1.65] text-gray-700 mt-1">{item.description}</p>
           )}
         </div>
       ))}

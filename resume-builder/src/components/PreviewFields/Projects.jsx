@@ -91,11 +91,11 @@ const Projects = ({
           </div>
 
           {project.type && (
-            <div className="text-[11px] text-gray-500 mt-0.5">{project.type}</div>
+            <div className="text-[11px] text-gray-600 mt-0.5">{project.type}</div>
           )}
 
           {project.description && (
-            <p className="text-[12px] leading-[1.65] text-gray-600 mt-1">{project.description}</p>
+            <p className="text-[12px] leading-[1.65] text-gray-700 mt-1">{project.description}</p>
           )}
         </div>
       ))}
