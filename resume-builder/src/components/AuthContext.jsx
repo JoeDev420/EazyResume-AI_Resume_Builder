@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
 import API, {registerUnauthorizedHandler} from "./AxiosConfig";
-import LoadingSpinner from "./LoadingSpinner";
 
 
 
@@ -79,26 +78,11 @@ export const AuthProvider = ( {children} )=>{   //the producer and storefront ow
     },[])
 
 
-   if (loading) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white">
-        <LoadingSpinner color="black" />
-      </div>
-    );
-  } 
-
-  else{
-    return(
-
-        <AuthContext.Provider value={value}>  
-
-            {children}                         
-
-        </AuthContext.Provider>
-
-    )
-
-  }
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 
 
 
