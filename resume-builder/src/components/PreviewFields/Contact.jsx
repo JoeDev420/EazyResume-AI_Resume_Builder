@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Linkedin, Pencil } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Globe, Pencil } from "lucide-react";
 import { scrollToTop } from "../../utils/scrollToTop";
 import { useSearchParams, useLocation } from "react-router-dom";
 
@@ -7,13 +7,14 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
   const location = useLocation();
   const isViewMode = location.pathname.startsWith("/view");
 
+  const baseText = textColor || "text-gray-900";
+  const mutedText = textColor ? textColor + " opacity-75" : "text-gray-500";
+  const linkText = textColor ? textColor : "text-[#2563EB]";
+
   return (
-    <>
-      <h1
-        className={`font-semibold text-center text-[18px] sm:text-[21px] ${
-          textColor || "text-gray-700"
-        }`}
-      >
+    <div className="text-center">
+      {/* Name */}
+      <h1 className={`font-bold text-[26px] leading-tight tracking-tight ${baseText}`}>
         <span className="relative inline-block">
           {formData.fullName || "Your Name"}
           {!isViewMode && (
@@ -29,61 +30,70 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
               }}
               className="absolute -right-7 top-1/2 -translate-y-1/2 bg-white rounded-full p-1 shadow"
             >
-              <Pencil className="w-4 h-4 text-blue-600 hover:text-blue-700" />
+              <Pencil className="w-3.5 h-3.5 text-blue-500" />
             </button>
           )}
         </span>
       </h1>
 
-      <h2 className={`text-base sm:text-lg font-semibold text-center break-words ${textColor}`}>
-        {formData.profession}
-      </h2>
+      {/* Profession */}
+      {formData.profession && (
+        <p className={`text-[13px] font-medium mt-0.5 ${mutedText}`}>
+          {formData.profession}
+        </p>
+      )}
 
-      <div className={`flex flex-wrap justify-center gap-x-4 gap-y-1 mt-2 text-xs sm:text-sm ${textColor} px-2`}>
-        <span className="flex items-center gap-1 break-all">
-          <Mail size={12} />
-          {formData.email || "email@example.com"}
-        </span>
-
-        <span className={`${textColor} flex items-center gap-1`}>
-          <Phone size={12} />
-          {formData.phone || "000–000–0000"}
-        </span>
-
-        <span className={`${textColor} flex items-center gap-1 break-words`}>
-          <MapPin size={12} />
-          {formData.location || "City, Country"}
-        </span>
-
+      {/* Contact row */}
+      <div className={`flex flex-wrap justify-center items-center gap-x-3 gap-y-1 mt-2 text-[11px] ${mutedText}`}>
+        {formData.email && (
+          <span className="flex items-center gap-1">
+            <Mail size={11} />
+            {formData.email}
+          </span>
+        )}
+        {formData.phone && (
+          <span className="flex items-center gap-1">
+            <Phone size={11} />
+            {formData.phone}
+          </span>
+        )}
+        {formData.location && (
+          <span className="flex items-center gap-1">
+            <MapPin size={11} />
+            {formData.location}
+          </span>
+        )}
         {formData.linkedin && (
           <a
             href={formData.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className={`${textColor} flex items-center gap-1 text-blue-600 hover:underline break-all`}
+            className={`flex items-center gap-1 hover:underline ${linkText}`}
           >
-            <Linkedin size={12} />
-            {formData.linkedinShort || formData.linkedin}
+            <Linkedin size={11} />
+            {formData.linkedinShort || "LinkedIn"}
           </a>
         )}
       </div>
 
+      {/* Website links */}
       {formData.website?.length > 0 && (
-        <div className={`${textColor} flex flex-col sm:flex-row sm:flex-wrap justify-center gap-x-4 gap-y-1 mt-2 text-xs sm:text-sm`}>
+        <div className={`flex flex-wrap justify-center gap-x-3 gap-y-1 mt-1 text-[11px] ${linkText}`}>
           {formData.website.map((url, i) => (
             <a
               key={i}
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline break-all"
+              className="flex items-center gap-1 hover:underline"
             >
+              <Globe size={11} />
               {formData.websiteShort?.[i] || url}
             </a>
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -105,7 +105,7 @@ const TemplateOne = ({
                 items={sectionOrder}
                 strategy={verticalListSortingStrategy}
               >
-                <div className="space-y-1">
+                <div>
                   {sectionOrder
                     .filter((id) => sectionVisibility[id])
                     .map((id) => {
@@ -133,7 +133,7 @@ const TemplateOne = ({
               </SortableContext>
             </DndContext>
           ) : (
-            <div className="space-y-1">
+            <div>
               {sectionOrder
                 .filter((id) => sectionVisibility[id])
                 .map((id) => {

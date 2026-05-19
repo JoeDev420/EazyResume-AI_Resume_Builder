@@ -1,22 +1,21 @@
-import React from "react";
 import { Pencil } from "lucide-react";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { scrollToTop } from "../../utils/scrollToTop";
 
 const Summary = ({ formData, setResumeStep }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const location = useLocation();
   const isViewMode = location.pathname.startsWith("/view");
 
   const { professionalsummary } = formData;
 
   return (
-    <section className="mb-4 relative break-words px-1">
-      <div className="flex items-start justify-between gap-2">
-        <h2 className="text-sm font-semibold tracking-wide">
-          PROFESSIONAL SUMMARY
+    <section className="mb-5 break-words">
+      <div className="flex items-center gap-2 mb-2">
+        <h2 className="text-[10px] font-bold tracking-[0.14em] uppercase text-[#2563EB] shrink-0">
+          Summary
         </h2>
-
+        <div className="flex-1 h-px bg-gray-200" />
         {!isViewMode && professionalsummary?.length > 0 && (
           <button
             onClick={() => {
@@ -28,22 +27,15 @@ const Summary = ({ formData, setResumeStep }) => {
               setResumeStep(2);
               scrollToTop();
             }}
-            className="text-red-400 hover:text-red-500"
+            className="text-gray-400 hover:text-gray-600"
           >
-            <Pencil className="size-4 hover:scale-105" />
+            <Pencil className="size-3.5" />
           </button>
         )}
       </div>
 
-      <p
-        className={`text-sm leading-relaxed pl-3 mt-1 ${
-          professionalsummary
-            ? "text-gray-800"
-            : "italic text-gray-400"
-        }`}
-      >
-        {professionalsummary ||
-          "Briefly describe your experience, strengths, and career goals here."}
+      <p className={`text-[12px] leading-[1.65] ${professionalsummary ? "text-gray-600" : "text-gray-400"}`}>
+        {professionalsummary || "Briefly describe your experience, strengths, and career goals here."}
       </p>
     </section>
   );
