@@ -1,9 +1,11 @@
 import { DndContext, closestCenter } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import { Pencil, Trash2 } from "lucide-react";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { scrollToTop } from "../../utils/scrollToTop";
 import SortableEntry from "../SortableEntry";
+
+const getAchId = (item) => `${item.title}||${item.issuer}`;
 
 const Achievements = ({
   formData,
@@ -31,14 +33,18 @@ const Achievements = ({
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    const next = [...formData.achievements];
-    const [moved] = next.splice(active.id, 1);
-    next.splice(over.id, 0, moved);
+    const oldIndex = formData.achievements.findIndex(a => getAchId(a) === active.id);
+    const newIndex = formData.achievements.findIndex(a => getAchId(a) === over.id);
+    if (oldIndex === -1 || newIndex === -1) return;
 
-    setFormData(prev => ({ ...prev, achievements: next, change: true }));
+    setFormData(prev => ({
+      ...prev,
+      achievements: arrayMove(prev.achievements, oldIndex, newIndex),
+      change: true
+    }));
   };
 
-  const entryIds = formData.achievements?.map((_, i) => i) ?? [];
+  const entryIds = formData.achievements?.map(getAchId) ?? [];
 
   const renderEntry = (item, i) => (
     <div className="mb-4">
@@ -109,7 +115,7 @@ const Achievements = ({
         <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={entryIds} strategy={verticalListSortingStrategy}>
             {formData.achievements.map((item, i) => (
-              <SortableEntry key={i} id={i}>
+              <SortableEntry key={getAchId(item)} id={getAchId(item)}>
                 {renderEntry(item, i)}
               </SortableEntry>
             ))}

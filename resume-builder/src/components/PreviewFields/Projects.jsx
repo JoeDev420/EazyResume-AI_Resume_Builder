@@ -1,9 +1,11 @@
 import { DndContext, closestCenter } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import { Pencil, Trash2, ExternalLink } from "lucide-react";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { scrollToTop } from "../../utils/scrollToTop";
 import SortableEntry from "../SortableEntry";
+
+const getProjId = (project) => `${project.title}||${project.type}`;
 
 const Projects = ({
   formData,
@@ -32,14 +34,18 @@ const Projects = ({
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    const next = [...formData.projects];
-    const [moved] = next.splice(active.id, 1);
-    next.splice(over.id, 0, moved);
+    const oldIndex = formData.projects.findIndex(p => getProjId(p) === active.id);
+    const newIndex = formData.projects.findIndex(p => getProjId(p) === over.id);
+    if (oldIndex === -1 || newIndex === -1) return;
 
-    setFormData(prev => ({ ...prev, projects: next, change: true }));
+    setFormData(prev => ({
+      ...prev,
+      projects: arrayMove(prev.projects, oldIndex, newIndex),
+      change: true
+    }));
   };
 
-  const entryIds = formData.projects?.map((_, i) => i) ?? [];
+  const entryIds = formData.projects?.map(getProjId) ?? [];
 
   const renderEntry = (project, i) => (
     <div className="mb-4">
@@ -121,7 +127,7 @@ const Projects = ({
         <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={entryIds} strategy={verticalListSortingStrategy}>
             {formData.projects.map((project, i) => (
-              <SortableEntry key={i} id={i}>
+              <SortableEntry key={getProjId(project)} id={getProjId(project)}>
                 {renderEntry(project, i)}
               </SortableEntry>
             ))}

@@ -1,10 +1,12 @@
 import { DndContext, closestCenter } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import DateFormatter from "../DateFormatter";
 import { Pencil, Trash2 } from "lucide-react";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { scrollToTop } from "../../utils/scrollToTop";
 import SortableEntry from "../SortableEntry";
+
+const getExpId = (job) => `${job.role}||${job.company}||${job.startDate}`;
 
 const Experience = ({
   formData,
@@ -35,14 +37,18 @@ const Experience = ({
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    const next = [...formData.experience];
-    const [moved] = next.splice(active.id, 1);
-    next.splice(over.id, 0, moved);
+    const oldIndex = formData.experience.findIndex(j => getExpId(j) === active.id);
+    const newIndex = formData.experience.findIndex(j => getExpId(j) === over.id);
+    if (oldIndex === -1 || newIndex === -1) return;
 
-    setFormData(prev => ({ ...prev, experience: next, change: true }));
+    setFormData(prev => ({
+      ...prev,
+      experience: arrayMove(prev.experience, oldIndex, newIndex),
+      change: true
+    }));
   };
 
-  const entryIds = formData.experience?.map((_, i) => i) ?? [];
+  const entryIds = formData.experience?.map(getExpId) ?? [];
 
   const renderEntry = (job, i) => (
     <div className="mb-4">
@@ -125,7 +131,7 @@ const Experience = ({
         <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={entryIds} strategy={verticalListSortingStrategy}>
             {formData.experience.map((job, i) => (
-              <SortableEntry key={i} id={i}>
+              <SortableEntry key={getExpId(job)} id={getExpId(job)}>
                 {renderEntry(job, i)}
               </SortableEntry>
             ))}
