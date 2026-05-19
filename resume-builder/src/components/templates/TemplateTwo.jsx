@@ -99,6 +99,7 @@ const TemplateTwo = ({
                             <div className="hover:bg-gray-50 transition rounded-md px-1">
                               <Section
                                 formData={formData}
+                                setFormData={setFormData}
                                 setDraftEducation={setDraftEducation}
                                 setResumeStep={setResumeStep}
                                 draftExperience={draftExperience}

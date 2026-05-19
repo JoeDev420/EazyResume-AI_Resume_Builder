@@ -1,10 +1,14 @@
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import DateFormatter from "../DateFormatter";
 import { Pencil, Trash2 } from "lucide-react";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { scrollToTop } from "../../utils/scrollToTop";
+import SortableEntry from "../SortableEntry";
 
 const Experience = ({
   formData,
+  setFormData,
   setResumeStep,
   setDraftExperience,
   setEditingIndex,
@@ -27,6 +31,87 @@ const Experience = ({
         }
       ];
 
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const next = [...formData.experience];
+    const [moved] = next.splice(active.id, 1);
+    next.splice(over.id, 0, moved);
+
+    setFormData(prev => ({ ...prev, experience: next, change: true }));
+  };
+
+  const entryIds = formData.experience?.map((_, i) => i) ?? [];
+
+  const renderEntry = (job, i) => (
+    <div className="mb-4">
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <span className="text-[14px] font-semibold text-gray-900">{job.role}</span>
+          {!isViewMode && (
+            <>
+              <button
+                onClick={() => {
+                  setDraftExperience(job);
+                  setResumeStep(5);
+                  setEditingIndex(i);
+                  setDeletionIndex(null);
+                  setSearchParams((params) => {
+                    const p = new URLSearchParams(params);
+                    p.set("resumeStep", 5);
+                    return p;
+                  });
+                  scrollToTop();
+                }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <Pencil className="size-3.5" />
+              </button>
+              {formData.experience?.length > 0 && (
+                <button
+                  onClick={() => {
+                    setDraftExperience(job);
+                    setResumeStep(5);
+                    setDeletionIndex(i);
+                    setEditingIndex(null);
+                    setSearchParams((params) => {
+                      const p = new URLSearchParams(params);
+                      p.set("resumeStep", 5);
+                      return p;
+                    });
+                    scrollToTop();
+                  }}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <Trash2 className="size-3.5" />
+                </button>
+              )}
+            </>
+          )}
+          {job.type && (
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-gray-500 border border-blue-100">
+              {job.type}
+            </span>
+          )}
+        </div>
+        <span className="text-[11px] text-gray-500 whitespace-nowrap shrink-0">
+          <DateFormatter value={job.startDate} />
+          {" – "}
+          {job.currentlyWorking ? "Present" : <DateFormatter value={job.endDate} />}
+        </span>
+      </div>
+
+      {job.company && (
+        <div className="text-[12px] text-gray-600 mt-0.5">{job.company}</div>
+      )}
+
+      {job.details && (
+        <p className="text-[12px] leading-[1.65] text-gray-700 mt-1">{job.details}</p>
+      )}
+    </div>
+  );
+
   return (
     <section className="mb-5 break-words">
       <div className="flex items-center gap-2 mb-2">
@@ -36,73 +121,21 @@ const Experience = ({
         <div className="flex-1 h-px bg-gray-200" />
       </div>
 
-      {experiences.map((job, i) => (
-        <div key={i} className="mb-4">
-          <div className="flex items-start justify-between gap-2">
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-[14px] font-semibold text-gray-900">{job.role}</span>
-              {!isViewMode && (
-                <>
-                  <button
-                    onClick={() => {
-                      setDraftExperience(job);
-                      setResumeStep(5);
-                      setEditingIndex(i);
-                      setDeletionIndex(null);
-                      setSearchParams((params) => {
-                        const p = new URLSearchParams(params);
-                        p.set("resumeStep", 5);
-                        return p;
-                      });
-                      scrollToTop();
-                    }}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <Pencil className="size-3.5" />
-                  </button>
-                  {formData.experience?.length > 0 && (
-                    <button
-                      onClick={() => {
-                        setDraftExperience(job);
-                        setResumeStep(5);
-                        setDeletionIndex(i);
-                        setEditingIndex(null);
-                        setSearchParams((params) => {
-                          const p = new URLSearchParams(params);
-                          p.set("resumeStep", 5);
-                          return p;
-                        });
-                        scrollToTop();
-                      }}
-                      className="text-gray-400 hover:text-gray-600"
-                    >
-                      <Trash2 className="size-3.5" />
-                    </button>
-                  )}
-                </>
-              )}
-              {job.type && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-gray-500 border border-blue-100">
-                  {job.type}
-                </span>
-              )}
-            </div>
-            <span className="text-[11px] text-gray-500 whitespace-nowrap shrink-0">
-              <DateFormatter value={job.startDate} />
-              {" – "}
-              {job.currentlyWorking ? "Present" : <DateFormatter value={job.endDate} />}
-            </span>
-          </div>
-
-          {job.company && (
-            <div className="text-[12px] text-gray-600 mt-0.5">{job.company}</div>
-          )}
-
-          {job.details && (
-            <p className="text-[12px] leading-[1.65] text-gray-700 mt-1">{job.details}</p>
-          )}
-        </div>
-      ))}
+      {!isViewMode && formData.experience?.length > 1 ? (
+        <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={entryIds} strategy={verticalListSortingStrategy}>
+            {formData.experience.map((job, i) => (
+              <SortableEntry key={i} id={i}>
+                {renderEntry(job, i)}
+              </SortableEntry>
+            ))}
+          </SortableContext>
+        </DndContext>
+      ) : (
+        experiences.map((job, i) => (
+          <div key={i}>{renderEntry(job, i)}</div>
+        ))
+      )}
     </section>
   );
 };

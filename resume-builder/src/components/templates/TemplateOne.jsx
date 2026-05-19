@@ -1,4 +1,4 @@
-import { useLocation, useSearchParams,useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
@@ -115,6 +115,7 @@ const TemplateOne = ({
                           <div className="px-1 sm:px-2 hover:bg-gray-50 transition rounded-md">
                             <Section
                               formData={formData}
+                              setFormData={setFormData}
                               setDraftEducation={setDraftEducation}
                               setResumeStep={setResumeStep}
                               draftExperience={draftExperience}
