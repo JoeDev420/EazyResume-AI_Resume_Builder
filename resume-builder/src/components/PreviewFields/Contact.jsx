@@ -8,7 +8,7 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
   const isViewMode = location.pathname.startsWith("/view");
 
   const baseText = textColor || "text-gray-900";
-  const mutedText = textColor ? textColor + " opacity-75" : "text-gray-500";
+  const mutedText = textColor ? textColor + " opacity-75" : "text-gray-600";
   const linkText = textColor ? textColor : "text-[#2563EB]";
 
   return (
@@ -38,7 +38,7 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
 
       {/* Profession */}
       {formData.profession && (
-        <p className={`text-[15px] font-medium mt-0.5 ${mutedText}`}>
+        <p className={`text-[16px] font-medium mt-0.5 ${mutedText}`}>
           {formData.profession}
         </p>
       )}
