@@ -39,27 +39,39 @@ export const downloadResumePDF = async (req, res) => {
     console.log("Chromium path:", executablePath);
 
     console.log("4. Launching browser");
+    // 794px = A4 width at 96 dpi; viewport width must match PDF width to prevent reflow
+    const A4_WIDTH_PX = 794;
     const browser = await puppeteer.launch({
       args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
+      defaultViewport: { width: A4_WIDTH_PX, height: 1080, deviceScaleFactor: 1 },
       executablePath,
       headless: chromium.headless,
     });
 
     const page = await browser.newPage();
-    
+    await page.setViewport({ width: A4_WIDTH_PX, height: 1080, deviceScaleFactor: 1 });
+
     const url = `${process.env.FRONTEND_URL}/view/${slug}?print=true`;
     console.log("5. Navigating to:", url);
 
-    await page.goto(url, { 
+    await page.goto(url, {
       waitUntil: "networkidle0",
-      timeout: 30000 // 30 second timeout
+      timeout: 30000
+    });
+
+    // Disable CSS animations so layout is fully settled before measuring
+    await page.addStyleTag({
+      content: `*, *::before, *::after { animation: none !important; transition: none !important; }`
     });
 
     console.log("6. Generating PDF");
+    // Use body.scrollHeight only — html.scrollHeight inflates to viewport height
     const contentHeight = await page.evaluate(() => document.body.scrollHeight);
+    console.log("Content height:", contentHeight);
+
+    // PDF width matches viewport exactly so Chrome does not reflow and change height
     const pdf = await page.pdf({
-      width: "210mm",
+      width: `${A4_WIDTH_PX}px`,
       height: `${contentHeight}px`,
       printBackground: true,
     });
