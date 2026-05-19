@@ -19,33 +19,28 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
     <>
     
       <h1
-    className={`relative font-semibold text-center text-[18px] sm:text-[21px] ${
-      textColor || "text-gray-700"
-    }`}
->
-  <span className="inline-flex items-center gap-2 relative">
-    <span className="break-words text-center">
-      {formData.fullName || "Your Name"}
-    </span>
-
-    {!isViewMode && (
-      <button
-        onClick={() => {
-          setResumeStep(1);
-          setSearchParams((params) => {
-            const p = new URLSearchParams(params);
-            p.set("resumeStep", 1);
-            return p;
-          });
-          scrollToTop();
-        }}
-        className="bg-white rounded-full p-1 shadow shrink-0"
+        className={`relative font-semibold text-center text-[18px] sm:text-[21px] ${
+          textColor || "text-gray-700"
+        }`}
       >
-        <Pencil className="w-4 h-4 text-blue-600 hover:text-blue-700" />
-      </button>
-    )}
-  </span>
-</h1>
+        {formData.fullName || "Your Name"}
+        {!isViewMode && (
+          <button
+            onClick={() => {
+              setResumeStep(1);
+              setSearchParams((params) => {
+                const p = new URLSearchParams(params);
+                p.set("resumeStep", 1);
+                return p;
+              });
+              scrollToTop();
+            }}
+            className="absolute -right-7 top-1/2 -translate-y-1/2 bg-white rounded-full p-1 shadow"
+          >
+            <Pencil className="w-4 h-4 text-blue-600 hover:text-blue-700" />
+          </button>
+        )}
+      </h1>
 
 
       
