@@ -86,8 +86,6 @@ const TemplateOne = ({
             <Contact formData={formData} setResumeStep={setResumeStep} templateId={templateId} />
           </div>
 
-          <div className="h-px bg-gray-200 my-2" />
-
           {!isViewMode ? (
             <DndContext
               collisionDetection={closestCenter}
