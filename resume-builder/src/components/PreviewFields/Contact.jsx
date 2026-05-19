@@ -18,12 +18,14 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
   return (
     <>
     
-      <h1
-        className={`relative font-semibold text-center text-[18px] sm:text-[21px] ${
-          textColor || "text-gray-700"
-        }`}
-      >
-        {formData.fullName || "Your Name"}
+      <div className="flex justify-center items-center gap-2">
+        <h1
+          className={`font-semibold text-[18px] sm:text-[21px] ${
+            textColor || "text-gray-700"
+          }`}
+        >
+          {formData.fullName || "Your Name"}
+        </h1>
         {!isViewMode && (
           <button
             onClick={() => {
@@ -35,12 +37,12 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
               });
               scrollToTop();
             }}
-            className="absolute -right-7 top-1/2 -translate-y-1/2 bg-white rounded-full p-1 shadow"
+            className="bg-white rounded-full p-1 shadow shrink-0"
           >
             <Pencil className="w-4 h-4 text-blue-600 hover:text-blue-700" />
           </button>
         )}
-      </h1>
+      </div>
 
 
       
