@@ -42,10 +42,10 @@ const TemplateTwo = ({
         </div>
       )}
 
-      <div className="form-animate w-[750px] min-h-[700px] flex bg-white">
+      <div className="form-animate w-[780px] min-h-[700px] flex bg-white">
 
-        {/* Dark sidebar */}
-        <aside className="w-[190px] shrink-0 bg-slate-800 text-white flex flex-col items-center gap-5 px-4 py-6">
+        {/* Dark sidebar — self-start so it only grows as tall as its content */}
+        <aside className="w-[195px] shrink-0 self-start bg-slate-800 text-white flex flex-col items-center gap-5 px-4 py-6">
 
           {sectionVisibility.profilePic && (
             <div className={`w-20 h-20 rounded-full overflow-hidden ring-2 ring-slate-500 shadow-md ${imageLoading ? "border border-white" : ""}`}>
@@ -76,8 +76,8 @@ const TemplateTwo = ({
         {/* Main content */}
         <main className="flex-1 flex flex-col min-w-0">
 
-          {/* Header band */}
-          <div className="bg-slate-100 px-5 py-4 border-b border-slate-200">
+          {/* Contact header — white background, subtle bottom border */}
+          <div className="px-5 py-4 border-b border-gray-100">
             <Contact formData={formData} setResumeStep={setResumeStep} />
           </div>
 
