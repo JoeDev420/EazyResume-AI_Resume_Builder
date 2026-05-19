@@ -9,7 +9,7 @@ import {
 import { scrollToTop } from "../../utils/scrollToTop";
 import { useSearchParams, useLocation } from "react-router-dom";
 
-const Contact = ({ formData, textColor, setResumeStep, templateId }) => {
+const Contact = ({ formData, textColor, setResumeStep }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
   const isViewMode = location.pathname.startsWith("/view");
@@ -19,10 +19,9 @@ const Contact = ({ formData, textColor, setResumeStep, templateId }) => {
     <>
     
       <h1
-    
-  className={`${templateId===2?"ml-47":templateId===3?"ml-52":"ml-7"} relative font-semibold text-[18px] sm:text-[21px] ${
-    textColor || "text-gray-700"
-  }`}
+    className={`relative font-semibold text-center text-[18px] sm:text-[21px] ${
+      textColor || "text-gray-700"
+    }`}
 >
   <span className="inline-flex items-center gap-2 relative">
     <span className="break-words text-center">
