@@ -1,23 +1,14 @@
-import React from "react";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Linkedin,
-  Pencil
-} from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Pencil } from "lucide-react";
 import { scrollToTop } from "../../utils/scrollToTop";
 import { useSearchParams, useLocation } from "react-router-dom";
 
 const Contact = ({ formData, textColor, setResumeStep }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const location = useLocation();
   const isViewMode = location.pathname.startsWith("/view");
 
-
   return (
     <>
-    
       <h1
         className={`font-semibold text-center text-[18px] sm:text-[21px] ${
           textColor || "text-gray-700"
@@ -44,13 +35,10 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
         </span>
       </h1>
 
-
-      
-      <h2 className={`text-base sm:text-lg font-semibold text-center break-words ${textColor} `}>
+      <h2 className={`text-base sm:text-lg font-semibold text-center break-words ${textColor}`}>
         {formData.profession}
       </h2>
 
-      
       <div className={`flex flex-wrap justify-center gap-x-4 gap-y-1 mt-2 text-xs sm:text-sm ${textColor} px-2`}>
         <span className="flex items-center gap-1 break-all">
           <Mail size={12} />
@@ -80,7 +68,6 @@ const Contact = ({ formData, textColor, setResumeStep }) => {
         )}
       </div>
 
-  
       {formData.website?.length > 0 && (
         <div className={`${textColor} flex flex-col sm:flex-row sm:flex-wrap justify-center gap-x-4 gap-y-1 mt-2 text-xs sm:text-sm`}>
           {formData.website.map((url, i) => (
