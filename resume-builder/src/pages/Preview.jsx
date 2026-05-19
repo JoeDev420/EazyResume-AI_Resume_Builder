@@ -70,6 +70,16 @@ const Preview = () => {
   if (!formData)
     return <div className="text-center py-20">Loading...</div>;
 
+  if (isPrint) {
+    return (
+      <TemplateRenderer
+        templateId={formData.templateId}
+        formData={formData}
+        sectionVisibility={formData.sectionVisibility}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 px-3 sm:px-6 py-4 flex flex-col items-center">
       

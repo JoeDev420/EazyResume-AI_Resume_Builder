@@ -76,6 +76,9 @@ const Oauth = ({redirectPath,formLoading,setOauthLoad,oauthLoad}) => {
 
     </div>
   )
+
+
+  
 }
 
 export default Oauth

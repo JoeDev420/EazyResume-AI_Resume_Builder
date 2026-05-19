@@ -111,9 +111,9 @@
 
    
 
-     
-
         user.password = undefined
+
+
 
         res.cookie("token", token, {        //login sends a cookie to the user's browser. now that the 
 
@@ -254,7 +254,6 @@
 
             if (!user) {
 
-             
 
             return res.status(401).json({ success: false });
 
@@ -268,7 +267,9 @@
         } catch (error) {
 
             return res.status(500).json({ success: false });
+            
         }
+
 
 
     };

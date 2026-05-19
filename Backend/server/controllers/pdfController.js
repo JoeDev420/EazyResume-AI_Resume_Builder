@@ -57,8 +57,10 @@ export const downloadResumePDF = async (req, res) => {
     });
 
     console.log("6. Generating PDF");
+    const contentHeight = await page.evaluate(() => document.body.scrollHeight);
     const pdf = await page.pdf({
-      format: "A4",
+      width: "210mm",
+      height: `${contentHeight}px`,
       printBackground: true,
     });
 

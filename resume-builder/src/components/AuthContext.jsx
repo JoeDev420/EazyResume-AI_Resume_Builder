@@ -17,12 +17,10 @@ export const useAuth = () => {              //2 the convenience product sold sep
 
 
 
-export const AuthProvider = ({children})=>{   //the producer and storefront owner(retailer opens shops here)
+export const AuthProvider = ( {children} )=>{   //the producer and storefront owner(retailer opens shops here)
 
 
      const verifyToken = async ()=>{
-
-
 
 
     try {
@@ -107,6 +105,6 @@ export const AuthProvider = ({children})=>{   //the producer and storefront owne
 
 
 
-}                                       //3
+}                                    
 
 

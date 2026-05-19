@@ -25,11 +25,11 @@ const App = () => {
 
       <Route path='/' element={<Home/>} />
 
-      <Route path='app' element={<ProtectedRoute><Layout/></ProtectedRoute>}>
+        <Route path='app' element={<ProtectedRoute><Layout/></ProtectedRoute>}>
 
-      <Route index element={<Dashboard/>}/>
-      
-      <Route path='builder/:resumeId' element={<ResumeBuilder/>}/>
+        <Route index element={<Dashboard/>}/>
+        
+        <Route path='builder/:resumeId' element={<ResumeBuilder/>}/>
 
       </Route>
 

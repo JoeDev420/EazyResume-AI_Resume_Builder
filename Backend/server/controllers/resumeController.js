@@ -271,7 +271,7 @@ export const getResumebySlug = async(req,res)=>{
       const {resumeSlug} = req.params
 
       const userId = req.userId
-
+ 
 
 
       
