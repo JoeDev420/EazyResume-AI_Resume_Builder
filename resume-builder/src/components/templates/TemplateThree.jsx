@@ -94,16 +94,17 @@ const TemplateThree = ({
                   items={sectionOrder}
                   strategy={verticalListSortingStrategy}
                 >
-                  <div className="space-y-1">
+                  <div>
                     {sectionOrder
                       .filter((id) => sectionVisibility[id])
                       .map((id) => {
                         const Section = SECTION_MAP[id];
                         return (
                           <SortableItem key={id} id={id}>
-                            <div className=" hover:bg-gray-50 transition rounded-md px-2">
+                            <div className="hover:bg-gray-50 transition rounded-md px-2">
                               <Section
                                 formData={formData}
+                                setFormData={setFormData}
                                 setDraftEducation={setDraftEducation}
                                 setResumeStep={setResumeStep}
                                 draftExperience={draftExperience}
@@ -122,13 +123,13 @@ const TemplateThree = ({
                 </SortableContext>
               </DndContext>
             ) : (
-              <div className="space-y-1">
+              <div>
                 {sectionOrder
                   .filter((id) => sectionVisibility[id])
                   .map((id) => {
                     const Section = SECTION_MAP[id];
                     return (
-                      <div key={id} className="">
+                      <div key={id}>
                         <Section formData={formData} />
                       </div>
                     );
