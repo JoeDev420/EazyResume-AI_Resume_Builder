@@ -64,6 +64,9 @@ export const downloadResumePDF = async (req, res) => {
       content: `*, *::before, *::after { animation: none !important; transition: none !important; }`
     });
 
+    // Switch to print media BEFORE measuring so the height matches what page.pdf() will render
+    await page.emulateMediaType("print");
+
     console.log("6. Generating PDF");
     // Use body.scrollHeight only — html.scrollHeight inflates to viewport height
     const contentHeight = await page.evaluate(() => document.body.scrollHeight);
