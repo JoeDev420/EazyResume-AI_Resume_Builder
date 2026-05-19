@@ -64,19 +64,16 @@ export const downloadResumePDF = async (req, res) => {
       content: `*, *::before, *::after { animation: none !important; transition: none !important; }`
     });
 
-    // Switch to print media BEFORE measuring so the height matches what page.pdf() will render
-    await page.emulateMediaType("print");
-
     console.log("6. Generating PDF");
-    // Use body.scrollHeight only — html.scrollHeight inflates to viewport height
     const contentHeight = await page.evaluate(() => document.body.scrollHeight);
     console.log("Content height:", contentHeight);
 
-    // PDF width matches viewport exactly so Chrome does not reflow and change height
+    // Add bottom padding so sub-pixel print-rendering differences never push content to page 2
     const pdf = await page.pdf({
       width: `${A4_WIDTH_PX}px`,
-      height: `${contentHeight}px`,
+      height: `${contentHeight + 80}px`,
       printBackground: true,
+      margin: { top: 0, right: 0, bottom: 0, left: 0 },
     });
 
     await browser.close();
