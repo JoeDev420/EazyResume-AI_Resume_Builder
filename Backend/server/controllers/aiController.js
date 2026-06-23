@@ -3,82 +3,48 @@ import User from "../models/User.js";
 import extractTextFromFile from "../utils/extractText.cjs";
 
 
-
-
-
 // --------------------------------------------------
 // 1) Enhance Summary
 // --------------------------------------------------
 export const enhanceData = async (req, res) => {
-
   try {
     const { data } = req.body;
+    const userId = req.userId;
+    const user = await User.findById(userId);
 
- 
-
-    const userId = req.userId
-
-
-
-    const user = await User.findById(userId)
-
- 
-
-
-
-    if(!user.premium){
-
-
-
-      return res.status(400).json({success:false,message:"Unauthorized"})
-
+    if (!user.premium) {
+      return res.status(400).json({ success: false, message: "Unauthorized" });
     }
 
-
     const response = await openai.chat.completions.create({
-
-          model: process.env.OPENAI_MODEL,
-          temperature: 0.1,
-          messages: [
-            {
-              role: "system",
-              content: "You are given resume data of a user, and you are supposed to return it in a polished form while making sure its of the correct length.you can also return a longer length version which sticks to the user's context but make sure its not too long but only return either one not both. only return improved data, nothing else no heading no endings only relevant data to the user"
-              
-            
-            },
-            {
-              role: "user",
-              content: data,
-            },
-          ],
-
-        });
-
+      model: process.env.OPENAI_MODEL,
+      temperature: 0.1,
+      messages: [
+        {
+          role: "system",
+          content: "You are given resume data of a user, and you are supposed to return it in a polished form while making sure its of the correct length.you can also return a longer length version which sticks to the user's context but make sure its not too long but only return either one not both. only return improved data, nothing else no heading no endings only relevant data to the user"
+        },
+        {
+          role: "user",
+          content: data,
+        },
+      ],
+    });
 
     const improvedData = response.choices[0].message.content.trim();
-
-  
-
-    
-
-    res.status(200).json({ improvedData});
+    res.status(200).json({ improvedData });
   } catch (error) {
-
-
     res.status(400).json({ message: error.message });
   }
-
 };
 
 
 // --------------------------------------------------
-// 3) Create Resume AI
+// 2) Create Resume AI
 // --------------------------------------------------
 export const createResumeAI = async (req, res) => {
-
-    try {
-
-    const { text, meta } = await extractTextFromFile(req.file)
+  try {
+    const { text, meta } = await extractTextFromFile(req.file);
 
     if (!text || text.length < 50) {
       return res.status(400).json({
@@ -86,183 +52,170 @@ export const createResumeAI = async (req, res) => {
       });
     }
 
-
-
     const rawTitle = req.file.originalname;
-    
     const title = rawTitle.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ").trim();
 
-   
-
-   
-
     const response = await openai.chat.completions.create({
+      model: process.env.OPENAI_MODEL,
+      temperature: 0.1,
+      messages: [
+        {
+          role: "system",
+          content: `You are parsing a resume titled: "${title}"
 
-          model: process.env.OPENAI_MODEL,
-          temperature: 0.1,
-          messages: [
-            {
-              role: "system",
-              content: `You are parsing a resume titled: "${title}"
-              
-              
-        Convert resume text into VALID JSON using ONLY these keys:
+Convert resume text into VALID JSON using ONLY these keys:
 
-        title, fullName, email, phone, location, linkedin, website(array of strings),
-        profession, professionalsummary, skills(array of strings and only skill names included),
-        experience[{role,startDate,endDate,company,details(string),type,currentlyWorking}],
-        projects[{title,type,description}],
-        education[{degree,field,graduationDate(in years only, for ex. for 2020 june return: 2020-06),institute,cgpa(include percentages too)}],
-        achievements[{title,issuer,description}],
-        profileImageObject{profileImageUrl},
-        sectionOrder[
-          "summary",
-          "education",
-          "skills",
-          "experience",
-          "projects",
-          "achievements",
-      ]
+title, fullName, email, phone, location, linkedin, website(array of strings),
+profession, professionalsummary, skills(array of strings and only skill names included),
+experience[{role,startDate,endDate,company,details(string),type,currentlyWorking}],
+projects[{title,type,description}],
+education[{degree,field,graduationDate(in years only, for ex. for 2020 june return: 2020-06),institute,cgpa(include percentages too)}],
+achievements[{title,issuer,description}],
+profileImageObject{profileImageUrl},
+sectionOrder[
+  "summary",
+  "education",
+  "skills",
+  "experience",
+  "projects",
+  "achievements",
+]
 
-        Rules:
-        - Return JSON only
-        - Missing info → empty string/array
-        - No extra fields
-        -for any detailed description like project description include appropriate and margins in the text`.trim(),
-            },
-            {
-              role: "user",
-              content: text,
-            },
-          ],
+Rules:
+- Return JSON only
+- Missing info -> empty string/array
+- No extra fields
+- for any detailed description like project description include appropriate and margins in the text`
+        },
+        {
+          role: "user",
+          content: text,
+        },
+      ],
+    });
 
-        });
+    const raw = response.choices[0].message.content;
+    const cleaned = raw.replace(/```json|```/g, "").trim();
+    const aiFormData = JSON.parse(cleaned);
 
-    
-
-
-      const raw = response.choices[0].message.content;
-
-      // remove ```json and ```
-      const cleaned = raw.replace(/```json|```/g, "").trim();
-
-      const aiFormData = JSON.parse(cleaned);
-
-      return res.json({success:true,aiFormData:aiFormData})
-
-
-        
-
-  } 
-
-
-  catch (error) {
+    return res.json({ success: true, aiFormData });
+  } catch (error) {
     console.error("Resume extraction failed:", error.message);
-
-  console.log("STATUS:", error.status);
-  console.log("CODE:", error.code);
-  console.log("MESSAGE:", error.message);
-
-
     res.status(500).json({
       success: false,
       message: "Failed to extract resume text"
     });
   }
-
 };
 
 
+// --------------------------------------------------
+// 3) ATS Scan
+// --------------------------------------------------
+
+const buildResumeText = (formData) => {
+  const lines = [];
+
+  if (formData.fullName)   lines.push(`Name: ${formData.fullName}`);
+  if (formData.profession) lines.push(`Target Role: ${formData.profession}`);
+  if (formData.email)      lines.push(`Email: ${formData.email}`);
+  if (formData.phone)      lines.push(`Phone: ${formData.phone}`);
+  if (formData.location)   lines.push(`Location: ${formData.location}`);
+  if (formData.linkedin)   lines.push(`LinkedIn: ${formData.linkedin}`);
+
+  if (formData.professionalsummary)
+    lines.push(`\nPROFESSIONAL SUMMARY:\n${formData.professionalsummary}`);
+
+  if (formData.skills?.length)
+    lines.push(`\nSKILLS:\n${formData.skills.join(', ')}`);
+
+  if (formData.experience?.length) {
+    lines.push('\nEXPERIENCE:');
+    formData.experience.forEach(exp => {
+      const period = `${exp.startDate || ''} - ${exp.currentlyWorking ? 'Present' : (exp.endDate || '')}`;
+      lines.push(`  ${exp.role || ''} at ${exp.company || ''} (${period})`);
+      if (exp.type)    lines.push(`  Type: ${exp.type}`);
+      if (exp.details) lines.push(`  ${exp.details}`);
+    });
+  }
+
+  if (formData.projects?.length) {
+    lines.push('\nPROJECTS:');
+    formData.projects.forEach(proj => {
+      lines.push(`  ${proj.title || ''}${proj.type ? ` | ${proj.type}` : ''}`);
+      if (proj.description) lines.push(`  ${proj.description}`);
+    });
+  }
+
+  if (formData.education?.length) {
+    lines.push('\nEDUCATION:');
+    formData.education.forEach(edu => {
+      const degree = [edu.degree, edu.field].filter(Boolean).join(' in ');
+      lines.push(`  ${degree} | ${edu.institute || ''} | ${edu.graduationDate || ''}`);
+      if (edu.cgpa) lines.push(`  GPA: ${edu.cgpa}`);
+    });
+  }
+
+  if (formData.achievements?.length) {
+    lines.push('\nACHIEVEMENTS:');
+    formData.achievements.forEach(ach => {
+      lines.push(`  ${ach.title || ''}${ach.issuer ? ` | ${ach.issuer}` : ''}`);
+      if (ach.description) lines.push(`  ${ach.description}`);
+    });
+  }
+
+  return lines.join('\n');
+};
+
 export const atsScan = async (req, res) => {
-          try {
-            const { formData } = req.body;
-
-            if (!formData) {
-              return res.status(400).json({ errors: ["Resume data not provided"] });
-            }
-
-            // Convert resume object into readable text for ATS
-            const resumeText = JSON.stringify(formData, null, 2);
-
-            const prompt = `
-                  You are an ATS resume scanner.
-
-                  Analyze the following resume data and return ONLY an array of ATS problems.
-
-                  Rules:
-                  - Return only a JSON array of strings.
-                  - No explanation text.
-                  - No markdown.
-                  - Each item must be a clear ATS issue.
-                  - If no issues, return an empty array.
-
-                  Resume Data:
-                  ${resumeText}
-                  `;
-
-                const response = await openai.chat.completions.create({
-
-                    model: process.env.OPENAI_MODEL,
-                    temperature: 0.1,
-
-                    messages: [
-                      {
-                        role: "system",
-                        content: `
-                  You are an ATS resume scanner.
-
-                  Rules:
-                  - Return ONLY a JSON array of strings.
-                  - Each string must be one ATS issue.
-                  - No explanation.
-                  - No markdown.
-                  - If no issues exist, return an empty array [].
-                  `
-                      },
-                      {
-                        role: "user",
-                        content: JSON.stringify(formData, null, 2)
-                      }
-                    ]
-
-                  });
-
-
-    let raw = response.choices[0].message.content.trim();
-
-    
-
-    // SAFETY PARSE
-    let parsedErrors = [];
-
-    try {
-      parsedErrors = JSON.parse(raw);
-    } catch (e) {
-      // fallback cleanup if AI returns messy format
-      raw = raw.replace(/```json|```/g, "").trim();
-      parsedErrors = JSON.parse(raw);
+  try {
+    const { formData } = req.body;
+    if (!formData) {
+      return res.status(400).json({ error: "Resume data not provided" });
     }
 
-    if (!Array.isArray(parsedErrors)) {
-      parsedErrors = ["ATS scan failed to return valid result."];
-    }
+    const resumeText = buildResumeText(formData);
 
+    const response = await openai.chat.completions.create({
+      model: process.env.OPENAI_MODEL,
+      temperature: 0.1,
+      messages: [
+        {
+          role: "system",
+          content: `You are an expert ATS (Applicant Tracking System) resume analyzer for tech/software engineering roles.
 
-    parsedErrors = parsedErrors.map(e =>
-    e.replace(/^[\s\u200B\uFEFF\u2060\-•○●▪▫◦]+/u, "").trim());
+Analyze the resume and return ONLY valid JSON — no markdown, no extra text:
 
+{
+  "score": <integer 0-100>,
+  "categories": [
+    { "name": "Keywords",     "issues": [{ "problem": "<specific issue>", "fix": "<actionable one-sentence fix>" }] },
+    { "name": "Content",      "issues": [{ "problem": "<specific issue>", "fix": "<actionable one-sentence fix>" }] },
+    { "name": "Formatting",   "issues": [{ "problem": "<specific issue>", "fix": "<actionable one-sentence fix>" }] },
+    { "name": "Completeness", "issues": [{ "problem": "<specific issue>", "fix": "<actionable one-sentence fix>" }] }
+  ]
+}
+
+Score guide: 90-100 excellent, 75-89 good, 60-74 fair, below 60 needs significant work.
+Always return all 4 categories. Use empty array [] for issues if none found in that category.`
+        },
+        {
+          role: "user",
+          content: resumeText
+        }
+      ]
+    });
+
+    const raw = response.choices[0].message.content.trim().replace(/```json|```/g, "").trim();
+    const result = JSON.parse(raw);
 
     return res.json({
-      errors: parsedErrors
+      score: typeof result.score === 'number' ? result.score : 0,
+      categories: Array.isArray(result.categories) ? result.categories : []
     });
 
   } catch (err) {
     console.error("ATS Scan Error:", err.message);
-    return res.status(500).json({
-      errors: ["ATS scanning service is temporarily unavailable."]
-    });
+    return res.status(500).json({ error: "ATS scanning service is temporarily unavailable." });
   }
-
-
 };
-
