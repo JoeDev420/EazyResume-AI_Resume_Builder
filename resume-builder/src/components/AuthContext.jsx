@@ -1,94 +1,64 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { useContext } from "react";
-import { createContext } from "react";
-import API, {registerUnauthorizedHandler} from "./AxiosConfig";
+import { useState, useEffect, useContext, createContext } from "react";
+import API, { registerUnauthorizedHandler } from "./AxiosConfig";
 
+const AuthContext = createContext();
 
+export const useAuth = () => useContext(AuthContext);
 
-const AuthContext = createContext();    //1 the product
+export const AuthProvider = ({ children }) => {
 
-export const useAuth = () => {              //2 the convenience product sold seperately
-
-  return useContext(AuthContext);   //gives you access to the value object
-
-};
-
-
-
-export const AuthProvider = ( {children} )=>{   //the producer and storefront owner(retailer opens shops here)
-
-
-     const verifyToken = async ()=>{
-
-
+  // Seed from cache so returning users never see a spinner
+  const [user, setUser] = useState(() => {
     try {
-
-
-       const response = await API.get("/user/verification")
-
-
-       if(response.data.success){
-
-            setUser(response.data.user)
-
-       }
-
-    } catch (error) {
-
-      
-      setUser(null);
-
-        
+      const cached = localStorage.getItem("eazy_resume_user");
+      return cached ? JSON.parse(cached) : null;
+    } catch {
+      return null;
     }
+  });
 
-    finally{
+  // Only block protected routes when there is no cached user at all
+  const [loading, setLoading] = useState(
+    () => !localStorage.getItem("eazy_resume_user")
+  );
 
+  const saveUser = (u) => {
+    setUser(u);
+    if (u) {
+      localStorage.setItem("eazy_resume_user", JSON.stringify(u));
+    } else {
+      localStorage.removeItem("eazy_resume_user");
+    }
+  };
+
+  const verifyToken = async () => {
+    try {
+      const response = await API.get("/user/verification");
+      if (response.data.success) {
+        saveUser(response.data.user);
+      }
+    } catch {
+      saveUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUnauthorized = () => {
+    saveUser(null);
     setLoading(false);
+  };
 
-    }
-
-    }
-
-
-
-
-    const[user,setUser] = useState(null)
-    const[loading,setLoading] = useState(true)
-
-     const handleUnauthorized = () => {
-
-        setUser(null);
-        setLoading(false);
-
-    };
-
-
-
-    const value = {isAuth:!!user,user,loading,refreshAuth: verifyToken}
-
-
-    useEffect(()=>{
-
+  useEffect(() => {
     registerUnauthorizedHandler(handleUnauthorized);
-
     verifyToken();
+  }, []);
 
-
-    },[])
-
+  const value = { isAuth: !!user, user, loading, refreshAuth: verifyToken };
 
   return (
     <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
-
-
-
-
-
-
-}                                    
-
-
+};

@@ -67,8 +67,12 @@ const Preview = () => {
     getResumeData();
   }, [resumeSlug]);
 
-  if (!formData)
-    return <div className="text-center py-20">Loading...</div>;
+  if (!formData) return (
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center gap-3">
+      <div className="w-8 h-8 border-[3px] border-gray-300 border-t-gray-700 rounded-full animate-spin" />
+      <p className="text-sm text-gray-500">Loading resume…</p>
+    </div>
+  );
 
   if (isPrint) {
     return (

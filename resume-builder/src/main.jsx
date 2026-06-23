@@ -5,8 +5,13 @@ import App from './App.jsx'
 import { AuthProvider } from './components/AuthContext.jsx'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 
-createRoot(document.getElementById('root')).render(
+// Fire before React mounts so the Render backend starts waking up immediately.
+// AuthContext will make the same call once mounted; the server deduplicates the work.
+fetch(`${import.meta.env.VITE_API_URL}/user/verification`, {
+  credentials: 'include',
+}).catch(() => {});
 
+createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <GoogleOAuthProvider clientId="853140440626-3d274h34fhv882cm2ri8116g9gerioqf.apps.googleusercontent.com">
       <AuthProvider>
@@ -14,5 +19,4 @@ createRoot(document.getElementById('root')).render(
       </AuthProvider>
     </GoogleOAuthProvider>
   </BrowserRouter>
-
 );
