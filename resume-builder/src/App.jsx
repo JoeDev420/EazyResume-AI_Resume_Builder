@@ -2,14 +2,13 @@ import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { ToastContainer } from "react-toastify"
 import LoadingSpinner from './components/LoadingSpinner'
-
-const Home = lazy(() => import('./pages/Home'))
+import Login from './pages/Login'
+import ProtectedRoute from './components/ProtectedRoute'
+import Home from './pages/Home'
 const Layout = lazy(() => import('./pages/Layout'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const ResumeBuilder = lazy(() => import('./pages/ResumeBuilder'))
 const Preview = lazy(() => import('./pages/Preview'))
-const Login = lazy(() => import('./pages/Login'))
-const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'))
 const Premium = lazy(() => import('./pages/Premium'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
