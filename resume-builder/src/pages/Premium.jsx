@@ -24,7 +24,7 @@ const Premium = () => {
         order_id: data.orderId,
 
         name: "Resume Builder Pro",
-        description: "Pro Membership – ₹100",
+        description: "Pro Membership – Free Beta",
 
         handler: async function (response) {
           try {
@@ -103,14 +103,17 @@ const Premium = () => {
               </div>
 
               <div className="mt-10 text-center">
-                <p className="text-gray-500 text-sm">One-time payment</p>
-                <div className="text-5xl font-bold text-gray-900 mt-2">₹100</div>
+                <span className="inline-block bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full tracking-wide uppercase">
+                  Free during beta
+                </span>
+                <div className="text-5xl font-bold text-gray-900 mt-3">₹0</div>
+                <p className="text-gray-400 text-sm mt-1">No card required — unlock instantly</p>
 
                 <button
                   onClick={handleUpgrade}
                   className="mt-6 px-10 py-4 rounded-full bg-blue-500 text-white font-medium text-lg hover:bg-blue-600 transition shadow-lg"
                 >
-                  Get Premium
+                  Get Premium Free
                 </button>
               </div>
             </>
