@@ -1,8 +1,38 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import TemplateRenderer from "../components/templates/TemplateRender";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import API from "../components/AxiosConfig";
 import { useAuth } from "../components/AuthContext";
+
+// zoom shrinks layout dimensions (unlike transform:scale), so margin:auto
+// centering and container height both work correctly on all screen sizes.
+const ScaledResume = ({ formData }) => {
+  const outerRef = useRef(null);
+  const [scale, setScale] = useState(() =>
+    typeof window !== 'undefined' ? Math.min(1, (window.innerWidth - 24) / 794) : 1
+  );
+
+  useEffect(() => {
+    if (!outerRef.current) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setScale(Math.min(1, entry.contentRect.width / 794));
+    });
+    ro.observe(outerRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  return (
+    <div ref={outerRef} className="w-full overflow-hidden">
+      <div style={{ width: 794, margin: '0 auto', zoom: scale }}>
+        <TemplateRenderer
+          templateId={formData.templateId}
+          formData={formData}
+          sectionVisibility={formData.sectionVisibility}
+        />
+      </div>
+    </div>
+  );
+};
 
 const Preview = () => {
   const navigate = useNavigate();
@@ -126,23 +156,8 @@ const Preview = () => {
       )}
 
 
-      <div
-        ref={ResumeRef}
-        className="
-          bg-white shadow-lg
-          w-full max-w-4xl
-          flex justify-center
-          overflow-hidden
-        "
-      >
-
-        <div className="origin-top scale-[0.85] sm:scale-100">
-          <TemplateRenderer
-            templateId={formData.templateId}
-            formData={formData}
-            sectionVisibility={formData.sectionVisibility}
-          />
-        </div>
+      <div ref={ResumeRef} className="w-full max-w-4xl bg-white shadow-lg">
+        <ScaledResume formData={formData} />
       </div>
     </div>
   );

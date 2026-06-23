@@ -15,7 +15,7 @@ const Features = () => {
             </p>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-center gap-40 mt-16">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-20 xl:gap-40 mt-16">
             <img className="max-w-lg w-full xl:-ml-32 rounded-2xl" src="typing-pic.jpg" alt="" />
             
             <div className="px-4 md:px-0" onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>

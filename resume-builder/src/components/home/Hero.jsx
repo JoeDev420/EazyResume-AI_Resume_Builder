@@ -55,9 +55,9 @@ const Hero = () => {
         <div className="relative flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black mt-20 md:mt-30">
           <div className="absolute top-28 xl:top-10 -z-10 left-1/4 size-72 sm:size-96 xl:size-120 2xl:size-132 bg-blue-400 blur-[100px] opacity-30"></div>
 
-          <h1 className="text-5xl md:text-6xl font-semibold max-w-5xl text-center md:leading-[70px]">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-semibold max-w-5xl text-center leading-tight md:leading-[70px]">
             Land your dream job with{' '}
-            <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent text-nowrap">
+            <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
               AI-powered
             </span>{' '}
             resumes.
