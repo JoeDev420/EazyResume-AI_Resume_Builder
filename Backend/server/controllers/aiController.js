@@ -197,7 +197,14 @@ Analyze the resume and return ONLY valid JSON — no markdown, no extra text:
 }
 
 Score guide: 90-100 excellent, 75-89 good, 60-74 fair, below 60 needs significant work.
-Always return all 4 categories. Use empty array [] for issues if none found in that category.`
+Always return all 4 categories. Use empty array [] for issues if none found in that category.
+
+STRICT rules — violating any of these makes the analysis invalid:
+- Dates in the future (2025, 2026, etc.) are NOT errors. The candidate may be a current student or actively employed — treat all dates as accurate and intentional.
+- Do NOT suggest removing or reorganizing education entries (e.g. Class 10th, 12th). The candidate chose what to include; that is their decision, not an ATS issue.
+- Do NOT suggest restructuring sections into subsections (e.g. splitting Skills into Languages/Frameworks/Tools). The resume format is fixed — only flag issues within the existing structure.
+- Do NOT criticize personal content choices, career history length, or what the candidate decided to include or exclude.
+- Only flag genuine ATS technical problems: missing action verbs, no quantifiable achievements, lack of industry keywords, overly long bullet points, missing contact fields, or sparse descriptions.`
         },
         {
           role: "user",
