@@ -213,16 +213,27 @@ STRICT rules — violating any of these makes the analysis invalid:
       ]
     });
 
-    const raw = response.choices[0].message.content.trim().replace(/```json|```/g, "").trim();
-    const result = JSON.parse(raw);
+    const raw = response.choices[0].message.content ?? "";
+
+    // Extract JSON: strip markdown fences, then grab the first {...} block
+    const stripped = raw.replace(/```json|```/g, "").trim();
+    const jsonMatch = stripped.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error(`No JSON object found in AI response: ${stripped.slice(0, 200)}`);
+
+    const result = JSON.parse(jsonMatch[0]);
+
+    const DEFAULT_CATEGORIES = ["Keywords", "Content", "Formatting", "Completeness"];
+    const categories = Array.isArray(result.categories)
+      ? result.categories
+      : DEFAULT_CATEGORIES.map(name => ({ name, issues: [] }));
 
     return res.json({
-      score: typeof result.score === 'number' ? result.score : 0,
-      categories: Array.isArray(result.categories) ? result.categories : []
+      score: typeof result.score === 'number' ? Math.min(100, Math.max(0, result.score)) : 0,
+      categories
     });
 
   } catch (err) {
-    console.error("ATS Scan Error:", err.message);
+    console.error("ATS Scan Error:", err.status ?? "", err.message, err.response?.data ?? "");
     return res.status(500).json({ error: "ATS scanning service is temporarily unavailable." });
   }
 };
