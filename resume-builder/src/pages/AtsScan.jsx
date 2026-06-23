@@ -51,7 +51,7 @@ const ScoreRing = ({ score }) => {
 const CategoryCard = ({ category }) => {
   const cfg = CATEGORY_CONFIG[category.name] ?? FALLBACK_CONFIG;
   const Icon = cfg.icon;
-  const hasIssues = category.issues.length > 0;
+  const hasIssues = (category.issues?.length ?? 0) > 0;
   const [open, setOpen] = useState(hasIssues);
 
   return (
@@ -81,7 +81,7 @@ const CategoryCard = ({ category }) => {
 
       {hasIssues && open && (
         <div className="divide-y divide-gray-100 bg-white">
-          {category.issues.map((issue, i) => (
+          {category.issues?.map((issue, i) => (
             <div key={i} className="px-4 py-3 space-y-1.5">
               <div className="flex items-start gap-2">
                 <AlertCircle className="size-3.5 text-red-400 mt-0.5 shrink-0" />
@@ -188,7 +188,7 @@ const AtsScan = ({ formData }) => {
 
           {/* Category cards */}
           <div className="space-y-2.5">
-            {result.categories.map((cat, i) => (
+            {result.categories?.map((cat, i) => (
               <CategoryCard key={i} category={cat} />
             ))}
           </div>
