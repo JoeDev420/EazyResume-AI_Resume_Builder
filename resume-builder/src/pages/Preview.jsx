@@ -1,58 +1,12 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import TemplateRenderer from "../components/templates/TemplateRender";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import API from "../components/AxiosConfig";
 import { useAuth } from "../components/AuthContext";
 
-// Scales the A4 template (794px wide) to fit any container width
-const ScaledResume = ({ formData }) => {
-  const containerRef = useRef(null);
-  const resumeRef    = useRef(null);
-  const [scale, setScale] = useState(() =>
-    typeof window !== 'undefined'
-      ? Math.min(1, (window.innerWidth - 24) / 794)
-      : 1
-  );
-  const [wrapperHeight, setWrapperHeight] = useState('auto');
-
-  useEffect(() => {
-    const update = () => {
-      const containerW = containerRef.current?.offsetWidth ?? window.innerWidth;
-      const resumeH    = resumeRef.current?.offsetHeight ?? 1122;
-      const newScale   = Math.min(1, containerW / 794);
-      setScale(newScale);
-      setWrapperHeight(resumeH * newScale);
-    };
-
-    update();
-    const ro = new ResizeObserver(update);
-    if (containerRef.current) ro.observe(containerRef.current);
-    if (resumeRef.current)    ro.observe(resumeRef.current);
-    return () => ro.disconnect();
-  }, []);
-
-  return (
-    <div ref={containerRef} className="w-full bg-white shadow-lg overflow-hidden" style={{ height: wrapperHeight }}>
-      <div
-        ref={resumeRef}
-        style={{
-          width: 794,
-          transformOrigin: 'top left',
-          transform: `scale(${scale})`,
-        }}
-      >
-        <TemplateRenderer
-          templateId={formData.templateId}
-          formData={formData}
-          sectionVisibility={formData.sectionVisibility}
-        />
-      </div>
-    </div>
-  );
-};
-
 const Preview = () => {
   const navigate = useNavigate();
+  const ResumeRef = useRef(null);
   const { resumeSlug } = useParams();
   const { user } = useAuth();
 
@@ -61,14 +15,21 @@ const Preview = () => {
   const isPrint = searchParams.get("print") === "true";
 
   const Download = () => {
-    window.open(`${import.meta.env.VITE_API_URL}/pdf/resume/${resumeSlug}`, "_blank");
+    window.open(
+      `${import.meta.env.VITE_API_URL}/pdf/resume/${resumeSlug}`,
+      "_blank"
+    );
   };
 
   const ShareHandler = async () => {
     const shareLink = window.location.href;
+
     if (navigator.share) {
-      try { await navigator.share({ title: formData.title, url: shareLink }); }
-      catch (err) { console.log(err); }
+      try {
+        await navigator.share({ title: formData.title, url: shareLink });
+      } catch (err) {
+        console.log(err);
+      }
     } else {
       await navigator.clipboard.writeText(shareLink);
       alert("Link copied to clipboard");
@@ -82,7 +43,8 @@ const Preview = () => {
         resumeId: formData._id,
         public: !formData.public
       });
-      setFormData(prev => ({ ...prev, public: !prev.public }));
+
+      setFormData((prev) => ({ ...prev, public: !prev.public }));
     } catch (error) {
       console.log(error.message);
     }
@@ -91,12 +53,17 @@ const Preview = () => {
   useEffect(() => {
     const getResumeData = async () => {
       try {
-        const response = await API.get(`/resume/ResumePreview/${resumeSlug}`);
-        if (response.data.resume) setFormData(response.data.resume);
+        const response = await API.get(
+          `/resume/ResumePreview/${resumeSlug}`
+        );
+        if (response.data.resume) {
+          setFormData(response.data.resume);
+        }
       } catch (error) {
         console.log(error);
       }
     };
+
     getResumeData();
   }, [resumeSlug]);
 
@@ -119,45 +86,64 @@ const Preview = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 px-3 sm:px-6 py-4 flex flex-col items-center">
-
-      {/* Toolbar */}
-      <div className="w-full max-w-4xl mb-4 flex flex-col sm:flex-row sm:justify-between gap-3">
-        <button
-          onClick={() => navigate('/resumes')}
-          className="text-blue-500 font-medium text-sm self-start"
-        >
-          ← View All Resumes
-        </button>
-
-        <div className="flex flex-wrap gap-2">
+      
+      {!isPrint && (
+        <div className="w-full max-w-4xl mb-6 flex flex-col sm:flex-row sm:justify-between gap-3">
           <button
-            className="px-4 py-2 bg-purple-300 rounded-2xl text-sm"
-            onClick={Download}
+            onClick={() => navigate(`/resumes`)}
+            className="text-blue-500 font-medium text-sm sm:text-base"
           >
-            Download
+            View All Resumes
           </button>
-          <button
-            className="px-4 py-2 bg-blue-300 rounded-2xl text-sm"
-            onClick={ShareHandler}
-          >
-            Share
-          </button>
-          {user?._id === formData.userId && (
+
+          <div className="flex flex-wrap gap-2">
             <button
-              className={`px-4 py-2 rounded-2xl text-sm ${formData.public ? "bg-green-300" : "bg-red-400"}`}
-              onClick={changePublic}
+              className="px-4 py-2 bg-purple-300 rounded-2xl text-sm"
+              onClick={Download}
             >
-              {formData.public ? "Public" : "Private"}
+              Download
             </button>
-          )}
+
+            <button
+              className="px-4 py-2 bg-blue-300 rounded-2xl text-sm"
+              onClick={ShareHandler}
+            >
+              Share
+            </button>
+
+            {user?._id === formData.userId && (
+              <button
+                className={`px-4 py-2 rounded-2xl text-sm ${
+                  formData.public ? "bg-green-300" : "bg-red-400"
+                }`}
+                onClick={changePublic}
+              >
+                {formData.public ? "Public" : "Private"}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+
+      <div
+        ref={ResumeRef}
+        className="
+          bg-white shadow-lg
+          w-full max-w-4xl
+          flex justify-center
+          overflow-hidden
+        "
+      >
+
+        <div className="origin-top scale-[0.85] sm:scale-100">
+          <TemplateRenderer
+            templateId={formData.templateId}
+            formData={formData}
+            sectionVisibility={formData.sectionVisibility}
+          />
         </div>
       </div>
-
-      {/* Resume — scales to fit any screen width */}
-      <div className="w-full max-w-4xl">
-        <ScaledResume formData={formData} />
-      </div>
-
     </div>
   );
 };
