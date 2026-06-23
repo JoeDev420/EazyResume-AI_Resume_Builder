@@ -15,13 +15,32 @@ const Premium = () => {
 
   const handleUpgrade = async () => {
     try {
-      await API.post("/payment/claim-beta");
-      toast.success("Premium activated!");
-      await refreshAuth();
-      navigate(`${redirect}`);
+      const { data } = await API.get("/payment/create-order");
+
+      const options = {
+        key: "rzp_test_Rz0zhYIyhxZYa4",
+        amount: data.amount,
+        currency: data.currency,
+        order_id: data.orderId,
+        name: "Resume Builder Pro",
+        description: "Pro Membership – Free Beta",
+        handler: async function (response) {
+          try {
+            await API.post("/payment/payVerification", response);
+            toast.success("Payment Successful");
+            await refreshAuth();
+            navigate(`${redirect}`);
+          } catch (error) {
+            toast.error(error.response?.data?.message || "Verification failed");
+          }
+        },
+        theme: { color: "#4F9BFF" },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
     } catch (err) {
-      toast.error("Something went wrong. Please try again.");
-      console.error("Claim beta error", err);
+      console.error("Payment error", err);
     }
   };
 
@@ -83,12 +102,18 @@ const Premium = () => {
                 <div className="text-5xl font-bold text-gray-900 mt-3">₹0</div>
                 <p className="text-gray-400 text-sm mt-1">No card required — unlock instantly</p>
 
-                <button
-                  onClick={handleUpgrade}
-                  className="mt-6 px-10 py-4 rounded-full bg-blue-500 text-white font-medium text-lg hover:bg-blue-600 transition shadow-lg"
-                >
-                  Get Premium Free
-                </button>
+                <div className="relative inline-block mt-6 group">
+                  <button
+                    onClick={handleUpgrade}
+                    className="px-10 py-4 rounded-full bg-blue-500 text-white font-medium text-lg hover:bg-blue-600 transition shadow-lg"
+                  >
+                    Get Premium Free
+                  </button>
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 w-64 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none text-center leading-relaxed">
+                    Razorpay requires a minimum charge of ₹1 to process. This will be refunded or waived — you won't actually be charged.
+                    <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900" />
+                  </div>
+                </div>
               </div>
             </>
           )}

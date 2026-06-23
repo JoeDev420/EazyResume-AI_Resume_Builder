@@ -8,7 +8,7 @@ export const createOrder = async (req, res) => {
 
 
   try {
-    const amount = 100; // ₹100
+    const amount = 1; // ₹1 (beta price)
 
     const options = {
       amount: amount * 100, // paise
