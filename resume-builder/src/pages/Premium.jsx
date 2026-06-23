@@ -9,45 +9,19 @@ const Premium = () => {
   const navigate = useNavigate();
   const { user,refreshAuth } = useAuth();
 
-  const [searchParams,setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
 
   const redirect = searchParams.get("redirect")
 
   const handleUpgrade = async () => {
     try {
-      const { data } = await API.get("/payment/create-order");
-
-      const options = {
-        key: "rzp_test_Rz0zhYIyhxZYa4",
-        amount: data.amount,
-        currency: data.currency,
-        order_id: data.orderId,
-
-        name: "Resume Builder Pro",
-        description: "Pro Membership – Free Beta",
-
-        handler: async function (response) {
-          try {
-            await API.post("/payment/payVerification", response);
-            toast.success("Payment Successful");
-
-            await refreshAuth(); //get premium updated user setup in state
-
-            navigate(`${redirect}`);
-
-
-          } catch (error) {
-            toast.error(error.response?.data?.message || "Verification failed");
-          }
-        },
-
-        theme: { color: "#4F9BFF" },
-      };
-
-      const rzp = new window.Razorpay(options);
-      rzp.open();
+      await API.post("/payment/claim-beta");
+      toast.success("Premium activated!");
+      await refreshAuth();
+      navigate(`${redirect}`);
     } catch (err) {
-      console.error("Payment error", err);
+      toast.error("Something went wrong. Please try again.");
+      console.error("Claim beta error", err);
     }
   };
 
