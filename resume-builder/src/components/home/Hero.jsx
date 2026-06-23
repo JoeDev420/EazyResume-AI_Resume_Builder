@@ -30,10 +30,19 @@ const Hero = () => {
 />
           </Link>
 
-          <div className="hidden md:flex items-center gap-24 text-slate-800">
-            <a href="#" className="hover:text-blue-500 transition">Home</a>
-            <a href="#features" className="hover:text-blue-500 transition">Features</a>
-            <a href="#contact" className="hover:text-blue-500 transition">Contact Us</a>
+          <div className="hidden md:flex items-center gap-1 text-slate-600 text-sm font-medium">
+            <button
+              onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-4 py-2 rounded-full hover:bg-slate-100 hover:text-slate-900 transition-all"
+            >
+              Features
+            </button>
+            <button
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-4 py-2 rounded-full hover:bg-slate-100 hover:text-slate-900 transition-all"
+            >
+              Contact Us
+            </button>
           </div>
 
           <div className="hidden md:flex items-center gap-4">
