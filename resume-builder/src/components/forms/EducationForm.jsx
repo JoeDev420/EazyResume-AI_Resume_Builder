@@ -36,6 +36,7 @@ const EducationForm = ({
       field: "",
       graduationDate: "",
       cgpa: "",
+      gradeType: "CGPA",
     });
 
     setEditingIndex(null);
@@ -172,14 +173,31 @@ const EducationForm = ({
         </div>
 
         <div className="flex flex-col gap-1">
-          <label>CGPA</label>
-          <input
-            type="text"
-            name="cgpa"
-            value={draftEducation.cgpa}
-            onChange={handleChange}
-            className="border border-gray-300 p-2.5 w-full rounded-md"
-          />
+          <label>Grade</label>
+          <div className="flex gap-2">
+            <select
+              name="gradeType"
+              value={draftEducation.gradeType ?? "CGPA"}
+              onChange={handleChange}
+              className="border border-gray-300 p-2.5 rounded-md bg-white"
+            >
+              <option value="CGPA">CGPA</option>
+              <option value="Percentage">Percentage</option>
+              <option value="Percentile">Percentile</option>
+            </select>
+            <input
+              type="text"
+              name="cgpa"
+              value={draftEducation.cgpa}
+              onChange={handleChange}
+              placeholder={
+                draftEducation.gradeType === "Percentage" ? "e.g. 90%"
+                : draftEducation.gradeType === "Percentile" ? "e.g. 95"
+                : "e.g. 8.5"
+              }
+              className="border border-gray-300 p-2.5 flex-1 rounded-md"
+            />
+          </div>
         </div>
 
       </form>

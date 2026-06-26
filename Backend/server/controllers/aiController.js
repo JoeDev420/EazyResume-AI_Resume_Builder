@@ -69,7 +69,7 @@ title, fullName, email, phone, location, linkedin, website(array of strings),
 profession, professionalsummary, skills(array of strings and only skill names included),
 experience[{role,startDate,endDate,company,details(string),type,currentlyWorking}],
 projects[{title,type,description}],
-education[{degree,field,graduationDate(in years only, for ex. for 2020 june return: 2020-06),institute,cgpa(include percentages too)}],
+education[{degree,field,graduationDate(in years only, for ex. for 2020 june return: 2020-06),institute,cgpa(the raw value only),gradeType(one of: "CGPA","Percentage","Percentile" — detect from context, default "CGPA")}],
 achievements[{title,issuer,description}],
 profileImageObject{profileImageUrl},
 sectionOrder[
@@ -152,7 +152,7 @@ const buildResumeText = (formData) => {
     formData.education.forEach(edu => {
       const degree = [edu.degree, edu.field].filter(Boolean).join(' in ');
       lines.push(`  ${degree} | ${edu.institute || ''} | ${edu.graduationDate || ''}`);
-      if (edu.cgpa) lines.push(`  GPA: ${edu.cgpa}`);
+      if (edu.cgpa) lines.push(`  ${edu.gradeType ?? 'CGPA'}: ${edu.cgpa}`);
     });
   }
 

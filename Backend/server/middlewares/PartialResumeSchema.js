@@ -116,7 +116,11 @@ export const EducationItemSchema = Joi.object({
         .max(10)
         .pattern(/^[A-Za-z0-9.+%/]*$/)
         .allow("")
-        .trim()
+        .trim(),
+
+    gradeType: Joi.string()
+        .valid("CGPA", "Percentage", "Percentile")
+        .default("CGPA")
 });
 
 export const EducationSchema = Joi.object({

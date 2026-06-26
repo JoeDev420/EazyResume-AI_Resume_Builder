@@ -22,7 +22,8 @@ const Education = ({
           field: "Field of Study",
           institute: "Institution Name",
           graduationDate: "2023-03",
-          cgpa: ""
+          cgpa: "",
+          gradeType: "CGPA"
         }
       ];
 
@@ -93,7 +94,11 @@ const Education = ({
           )}
 
           {edu.cgpa && (
-            <div className="text-[11px] text-gray-600 mt-0.5">GPA: {edu.cgpa}</div>
+            <div className="text-[11px] text-gray-600 mt-0.5">
+              {edu.gradeType === "Percentage" ? "Percentage"
+                : edu.gradeType === "Percentile" ? "Percentile"
+                : "CGPA"}: {edu.cgpa}
+            </div>
           )}
         </div>
       ))}

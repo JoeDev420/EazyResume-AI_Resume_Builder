@@ -90,6 +90,7 @@ const ResumeBuilder = () => {
     field: "",
     graduationDate: "",
     cgpa: "",
+    gradeType: "CGPA",
   });
 
   const [draftExperience, setDraftExperience] = useState({

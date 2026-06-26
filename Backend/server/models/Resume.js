@@ -196,6 +196,11 @@ const ResumeSchema = new mongoose.Schema(
             type: String,
             default: "",
           },
+          gradeType: {
+            type: String,
+            enum: ["CGPA", "Percentage", "Percentile"],
+            default: "CGPA",
+          },
         },
           ],
 
